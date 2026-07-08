@@ -1,0 +1,42 @@
+{
+  "applied_files": [
+    {
+      "path": "ug/statutes/act-2008-8/local-governments-amendment-no2-2008.test.yaml",
+      "sha256": "1e91236d02a59a18d59749ea82b3eade8e32e6aa5991cbbb25c8219ad51640f5"
+    },
+    {
+      "path": "ug/statutes/act-2008-8/local-governments-amendment-no2-2008.yaml",
+      "sha256": "d3b5099d2346e6d3479085d5785bdb3671bead290530d2efe9ef47510b3f1274"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "9759dd348474c15f9fca71253431db76b9273fc7",
+    "dirty_tracked": false,
+    "root": "/Users/maxghenis/TheAxiomFoundation/axiom-encode",
+    "version": "0.2.1192",
+    "version_commit": "9759dd348474c15f9fca71253431db76b9273fc7"
+  },
+  "axiom_encode_version": "0.2.1192",
+  "backend": "manual",
+  "citation": "ug:statutes/act-2008-8/local-governments-amendment-no2-2008",
+  "context_manifest_file": null,
+  "context_manifest_sha256": null,
+  "generated_at": "2026-07-08T12:08:36.888477+00:00",
+  "generated_output_file": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmp88wlrqew/sign-applied-files/ug/statutes/act-2008-8/local-governments-amendment-no2-2008.yaml",
+  "generated_output_root": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmp88wlrqew",
+  "generated_output_sha256": "d3b5099d2346e6d3479085d5785bdb3671bead290530d2efe9ef47510b3f1274",
+  "generation_prompt_sha256": null,
+  "manual_exception": "#1",
+  "model": "",
+  "run_id": null,
+  "runner": "manual-attestation",
+  "schema_version": "axiom-encode/applied-rulespec/v1",
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "axiom-encode-apply-v1",
+    "value": "f03fffb32255d23625063fdd971ce10ed03dd5c8bcdcbd173c83b20f5316d467"
+  },
+  "tool": "axiom-encode sign-applied-files",
+  "trace_file": null,
+  "trace_sha256": null
+}

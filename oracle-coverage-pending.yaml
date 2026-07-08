@@ -8,8 +8,38 @@
 # Maintained by: axiom-encode oracle-coverage-pending sync.
 version: 1
 issue: https://github.com/TheAxiomFoundation/rulespec-ug/issues/1
-ceiling: 26
+ceiling: 39
 entries:
+  - legal_id: ug:policies/mglsd-scg/sage-handbook#months_in_year_for_annual_grant
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_age_eligible
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_monthly_amount
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_national_minimum_age_years
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#standard_vat_rate
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#vat_amount
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax_salary_band
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax_salary_rate
+    source: manual
+    since: 2026-07-08
   - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income
     source: manual
     since: 2026-07-08
@@ -68,6 +98,15 @@ entries:
     source: manual
     since: 2026-07-08
   - legal_id: ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#rental_tax_threshold_monthly_equivalent
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2024-excise/excise-duty-amendment-2024#diesel_excise_per_litre
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2024-excise/excise-duty-amendment-2024#fuel_excise_duty
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2024-excise/excise-duty-amendment-2024#petrol_excise_per_litre
     source: manual
     since: 2026-07-08
   - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#employee_share_rate

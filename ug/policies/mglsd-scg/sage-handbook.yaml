@@ -1,0 +1,120 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - ug/statute/act-2022-15/appropriation-2022/section-3-appropriation
+        - ug/policy/mglsd-scg/sage-handbook
+      rationale: |-
+        The Senior Citizens Grant is administratively set: the MGLSD SAGE
+        Handbook is the official programme documentation for the monthly
+        amount (Shs. 25,000) and the national 80-and-above rule encoded
+        here, and the programme is funded as appropriated public
+        expenditure - the Appropriation Act's authorising sections are
+        the captured statutory footing (Act 15 of 2022 as the exemplar
+        year; the FY2025/26 Appropriation Act, 2025 print is an open
+        capture item recorded in rulespec-ug#1).
+  deferred_outputs:
+    - output: ug:policies/mglsd-scg/sage-handbook/c#fy_2016_2017_oldest_100_subcounty_eligibility
+      reason: |-
+        The FY 2016/2017 oldest-100-per-subcounty rollout branch is outside this module's requested national FY2025/26 80+ rule; the module encodes only the national age-80-and-above amount.
+  summary: |-
+    “The Government of Uganda pays Shs. 25,000 per month under the Senior Citizens Grant scheme.” The national rollout started “with people who are 80 years and above, registered with the national ID and not receiving any other Government pension.” Earlier pilot and FY2016/17 district structures used lower-age or oldest-100 selection methods and are outside this national-rule module.
+rules:
+  - name: senior_citizens_grant_monthly_amount
+    kind: parameter
+    dtype: Money
+    period: Month
+    unit: UGX
+    source: ug/policy/mglsd-scg/sage-handbook 8.1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
+              excerpt: "The Government of Uganda pays Shs. 25,000 per month under the Senior Citizens Grant scheme."
+    versions:
+      - effective_from: '2019-07-01'
+        formula: |-
+          25000
+
+  - name: senior_citizens_grant_national_minimum_age_years
+    kind: parameter
+    dtype: Integer
+    unit: year
+    source: ug/policy/mglsd-scg/sage-handbook 6.2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
+              excerpt: "starting with people who are 80 years and above"
+    versions:
+      - effective_from: '2019-07-01'
+        formula: |-
+          80
+
+  - name: months_in_year_for_annual_grant
+    kind: parameter
+    dtype: Integer
+    unit: month
+    source: ug/policy/mglsd-scg/sage-handbook
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: unit
+            source:
+              corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
+              excerpt: "annual output = 12 x monthly"
+    versions:
+      - effective_from: '2019-07-01'
+        formula: |-
+          12
+
+  - name: senior_citizens_grant_age_eligible
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Year
+    source: ug/policy/mglsd-scg/sage-handbook 6.2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
+              excerpt: "starting with people who are 80 years and above"
+    versions:
+      - effective_from: '2019-07-01'
+        formula: |-
+          person_age >= senior_citizens_grant_national_minimum_age_years
+
+  - name: senior_citizens_grant_per_year
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: ug/policy/mglsd-scg/sage-handbook 1.1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
+              excerpt: "older persons receive Shs. 25,000 every month"
+    versions:
+      - effective_from: '2019-07-01'
+        formula: |-
+          if senior_citizens_grant_age_eligible: senior_citizens_grant_monthly_amount * months_in_year_for_annual_grant else: 0

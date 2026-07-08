@@ -1,0 +1,55 @@
+- name: age_80_receives_annual_grant
+  period:
+    period_kind: custom
+    name: fiscal_year_2025_26
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:policies/mglsd-scg/sage-handbook#input.person_age: 80
+  output:
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_age_eligible: holds
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year: 300000
+- name: age_79_receives_no_grant
+  period:
+    period_kind: custom
+    name: fiscal_year_2025_26
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:policies/mglsd-scg/sage-handbook#input.person_age: 79
+  output:
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_age_eligible: not_holds
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year: 0
+
+# Orchestrator-computed cases per axiom-encode#1060, matching the live
+# UGAMOD probe (boa_s = 25,000/month = 300,000/year at ages 80 and 85;
+# zero below 80 outside the rollout districts).
+- name: fy2025_26_age_80_national_grant
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:policies/mglsd-scg/sage-handbook#input.person_age: 80
+  output:
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year: 300000
+
+- name: fy2025_26_age_85_same_amount
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:policies/mglsd-scg/sage-handbook#input.person_age: 85
+  output:
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year: 300000
+
+- name: fy2025_26_age_79_not_eligible_nationally
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:policies/mglsd-scg/sage-handbook#input.person_age: 79
+  output:
+    ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year: 0

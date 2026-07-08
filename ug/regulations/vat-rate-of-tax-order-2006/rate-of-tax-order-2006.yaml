@@ -1,0 +1,54 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/regulation/vat-rate-of-tax-order-2006/rate-of-tax-order-2006
+  summary: |-
+    "This Order shall come into force on the 1st day of July 2005." "The rate of tax for ... every taxable supply made in Uganda by a taxable person; ... every import of goods other than an exempt import; and ... the supply of any imported services by any person, is 18% of the taxable value as defined in Sections 21 and 23 of the VAT Act."
+rules:
+  - name: standard_vat_rate
+    kind: parameter
+    dtype: Rate
+    source: Value Added Tax (rate of Tax) Order 2006, paragraph 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/regulation/vat-rate-of-tax-order-2006/rate-of-tax-order-2006
+              excerpt: "is 18% of the taxable value"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: ug/regulation/vat-rate-of-tax-order-2006/rate-of-tax-order-2006
+              excerpt: "come into force on the 1st day of July 2005"
+    versions:
+      - effective_from: '2005-07-01'
+        formula: |-
+          0.18
+  - name: vat_amount
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Value Added Tax (rate of Tax) Order 2006, paragraph 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/regulation/vat-rate-of-tax-order-2006/rate-of-tax-order-2006
+              excerpt: "is 18% of the taxable value"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: ug/regulation/vat-rate-of-tax-order-2006/rate-of-tax-order-2006
+              excerpt: "come into force on the 1st day of July 2005"
+    versions:
+      - effective_from: '2005-07-01'
+        formula: |-
+          standard_vat_rate * max(0, taxable_value)

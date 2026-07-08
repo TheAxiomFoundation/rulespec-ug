@@ -1,0 +1,42 @@
+{
+  "applied_files": [
+    {
+      "path": "ug/regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006.test.yaml",
+      "sha256": "4a61d1c7d2b00828f000fb58c2d4d92e4d48636f772d52be137a24b71d02c183"
+    },
+    {
+      "path": "ug/regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006.yaml",
+      "sha256": "c61ccca543fa611e936906463a511a176a92f283ba7fd2ee53dc5431e18adf16"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "9759dd348474c15f9fca71253431db76b9273fc7",
+    "dirty_tracked": false,
+    "root": "/Users/maxghenis/TheAxiomFoundation/axiom-encode",
+    "version": "0.2.1192",
+    "version_commit": "9759dd348474c15f9fca71253431db76b9273fc7"
+  },
+  "axiom_encode_version": "0.2.1192",
+  "backend": "manual",
+  "citation": "ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006",
+  "context_manifest_file": null,
+  "context_manifest_sha256": null,
+  "generated_at": "2026-07-08T12:08:36.888009+00:00",
+  "generated_output_file": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmp88wlrqew/sign-applied-files/ug/regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006.yaml",
+  "generated_output_root": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmp88wlrqew",
+  "generated_output_sha256": "c61ccca543fa611e936906463a511a176a92f283ba7fd2ee53dc5431e18adf16",
+  "generation_prompt_sha256": null,
+  "manual_exception": "#1",
+  "model": "",
+  "run_id": null,
+  "runner": "manual-attestation",
+  "schema_version": "axiom-encode/applied-rulespec/v1",
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "axiom-encode-apply-v1",
+    "value": "32a2de98943a57220895071a7c033540e7dafd6afe8140b0da74070f1b1aba9d"
+  },
+  "tool": "axiom-encode sign-applied-files",
+  "trace_file": null,
+  "trace_sha256": null
+}
