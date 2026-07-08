@@ -1,0 +1,475 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+  summary: |-
+    Part 1. Income tax rates for individuals. The income tax rates applicable to resident individuals are: not exceeding Ushs 2,820,000, nil; exceeding Ushs 2,820,000 but not exceeding Ushs 4,020,000, 10%; exceeding Ushs 4,020,000 but not exceeding Ushs 4,920,000, 20%; exceeding Ushs 4,920,000, 30%; and where chargeable income exceeds Ushs. 120,000,000 an additional 10%. Nonresident individuals: not exceeding Ushs. 4,020,000, 10%; exceeding Ushs. 4,020,000 but not exceeding Ushs. 4,920,000, 20%; exceeding Ushs.4.920,000, 30%; and the same additional 10% above Ushs. 120,000,000.
+rules:
+  - name: resident_individual_income_tax_band
+    kind: derived
+    entity: Person
+    dtype: Integer
+    period: Year
+    source: Third Schedule, Part I, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs 2,820,000 | Nil Exceeding Ushs. 2,820,000 but not) 10%"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "band_bounds"
+          - path: versions[0].formula
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 4.020.000 but not] Ushs. {20,000 plus 20%"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "band_bounds"
+          - path: versions[0].formula
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 4,920,000 ia) Ushs 300.000 plus 30%"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "band_bounds"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          if chargeable_income <= resident_band_upper_bound[0]: 0 else: if chargeable_income <= resident_band_upper_bound[1]: 1 else: if chargeable_income <= resident_band_upper_bound[2]: 2 else: 3
+
+  - name: nonresident_individual_income_tax_band
+    kind: derived
+    entity: Person
+    dtype: Integer
+    period: Year
+    source: Third Schedule, Part I, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs. 4,020,000 10%"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "band_bounds"
+          - path: versions[0].formula
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 4,020,000 but not}/Ushs. 402,000 ~ plus 20% of the exceeding Ushs. 4,920,000"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "band_bounds"
+          - path: versions[0].formula
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs.4.920,000 | (a) Ushs. 582.000 plus 30%"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "band_bounds"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          if chargeable_income <= nonresident_band_upper_bound[0]: 0 else: if chargeable_income <= nonresident_band_upper_bound[1]: 1 else: 2
+
+  - name: resident_band_lower_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: resident_individual_income_tax_band
+    source: Third Schedule, Part I, paragraph 1, resident individual chargeable income rows
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 2,820,000 but not) 10%"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "lower_bound"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 4.020.000 but not] Ushs. {20,000 plus 20%"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "lower_bound"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 4,920,000 ia) Ushs 300.000 plus 30%"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "lower_bound"
+    versions:
+      - effective_from: '2012-07-01'
+        values:
+          0: 0
+          1: 2820000
+          2: 4020000
+          3: 4920000
+
+  - name: resident_band_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: resident_individual_income_tax_band
+    source: Third Schedule, Part I, paragraph 1, resident individual chargeable income rows
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs 2,820,000 | Nil"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "upper_bound"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "exceeding Ushs. 4,020,000 ichargeable income exceeds Ushs. | | 2,820,000."
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "upper_bound"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "exceeding shs. 4,920,000 by which chargeable income exceeds | Ushs. 4,020,000."
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "upper_bound"
+    versions:
+      - effective_from: '2012-07-01'
+        values:
+          0: 2820000
+          1: 4020000
+          2: 4920000
+          3: 0
+
+  - name: resident_band_rate
+    kind: parameter
+    dtype: Rate
+    indexed_by: resident_individual_income_tax_band
+    source: Third Schedule, Part I, paragraph 1, resident individual rate rows
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs 2,820,000 | Nil"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "10% of the amount by which ' exceeding Ushs. 4,020,000"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "plus 20% of the amount exceeding shs. 4,920,000"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "plus 30% of the | amount by which chargeable | income exceeds Ushs. $920,000)"
+              table:
+                header: "resident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+    versions:
+      - effective_from: '2012-07-01'
+        values:
+          0: 0
+          1: 0.10
+          2: 0.20
+          3: 0.30
+
+  - name: nonresident_band_lower_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: nonresident_individual_income_tax_band
+    source: Third Schedule, Part I, paragraph 2, nonresident individual chargeable income rows
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs. 4,020,000 but not}/Ushs. 402,000 ~ plus 20%"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "lower_bound"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Exceeding Ushs.4.920,000 | (a) Ushs. 582.000 plus 30%"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "lower_bound"
+    versions:
+      - effective_from: '2012-07-01'
+        values:
+          0: 0
+          1: 4020000
+          2: 4920000
+
+  - name: nonresident_band_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: nonresident_individual_income_tax_band
+    source: Third Schedule, Part I, paragraph 2, nonresident individual chargeable income rows
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs. 4,020,000 10%"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "upper_bound"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "exceeding Ushs. 4,920,000 amount by which chargeable income| exceeds Ushs. 4,020,000."
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "upper_bound"
+    versions:
+      - effective_from: '2012-07-01'
+        values:
+          0: 4020000
+          1: 4920000
+          2: 0
+
+  - name: nonresident_band_rate
+    kind: parameter
+    dtype: Rate
+    indexed_by: nonresident_individual_income_tax_band
+    source: Third Schedule, Part I, paragraph 2, nonresident individual rate rows
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs. 4,020,000 10%"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "plus 20% of the exceeding Ushs. 4,920,000 amount by which chargeable income| exceeds Ushs. 4,020,000."
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "plus 30% of thel amount by which chargeable income exceeds Ushs. 4.920.000"
+              table:
+                header: "nonresident individual income tax rates"
+                row_key: "chargeable_income"
+                column_key: "rate_of_tax"
+    versions:
+      - effective_from: '2012-07-01'
+        values:
+          0: 0.10
+          1: 0.20
+          2: 0.30
+
+  - name: additional_tax_threshold
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    source: Third Schedule, Part I, paragraphs 1(b) and 2(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "where the chargeable income of| an individual exceeds | Ushs. 120,000,000"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          120000000
+
+  - name: additional_tax_rate
+    kind: parameter
+    dtype: Rate
+    source: Third Schedule, Part I, paragraphs 1(b) and 2(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "an additional 10% charged on the amount by} | which chargeable — income | | exceeds Ushs. 120,000,000."
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          0.10
+
+  - name: resident_individual_income_tax_before_additional_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Third Schedule, Part I, paragraph 1(a)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "The income tax rates applicable to resident individuals are— Chargeable income Rate of tax"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          if resident_individual_income_tax_band == 0: 0 else: if resident_individual_income_tax_band == 1: (chargeable_income - resident_band_lower_bound[1]) * resident_band_rate[1] else: if resident_individual_income_tax_band == 2: ((resident_band_upper_bound[1] - resident_band_lower_bound[1]) * resident_band_rate[1]) + ((chargeable_income - resident_band_lower_bound[2]) * resident_band_rate[2]) else: ((resident_band_upper_bound[1] - resident_band_lower_bound[1]) * resident_band_rate[1]) + ((resident_band_upper_bound[2] - resident_band_lower_bound[2]) * resident_band_rate[2]) + ((chargeable_income - resident_band_lower_bound[3]) * resident_band_rate[3])
+
+  - name: nonresident_individual_income_tax_before_additional_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Third Schedule, Part I, paragraph 2(a)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "The income tax rates applicable to nonresident individuals are— ~ Chargeable income / Rate of tax"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          if nonresident_individual_income_tax_band == 0: chargeable_income * nonresident_band_rate[0] else: if nonresident_individual_income_tax_band == 1: (nonresident_band_upper_bound[0] * nonresident_band_rate[0]) + ((chargeable_income - nonresident_band_lower_bound[1]) * nonresident_band_rate[1]) else: (nonresident_band_upper_bound[0] * nonresident_band_rate[0]) + ((nonresident_band_upper_bound[1] - nonresident_band_lower_bound[1]) * nonresident_band_rate[1]) + ((chargeable_income - nonresident_band_lower_bound[2]) * nonresident_band_rate[2])
+
+  - name: additional_tax_on_chargeable_income
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Third Schedule, Part I, paragraphs 1(b) and 2(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "an additional | | 10%: charged on the amount by which chargeable — income exceeds Ushs. 120,000,000"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          additional_tax_rate * max(0, chargeable_income - additional_tax_threshold)
+
+  - name: resident_individual_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Third Schedule, Part I, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "The income tax rates applicable to resident individuals are"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          resident_individual_income_tax_before_additional_tax + additional_tax_on_chargeable_income
+
+  - name: nonresident_individual_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Third Schedule, Part I, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "The income tax rates applicable to nonresident individuals are"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          nonresident_individual_income_tax_before_additional_tax + additional_tax_on_chargeable_income

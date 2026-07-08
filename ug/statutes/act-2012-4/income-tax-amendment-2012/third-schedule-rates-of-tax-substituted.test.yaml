@@ -1,0 +1,199 @@
+# Companion fixtures for the Act 4 of 2012 substituted Third Schedule
+# (Income Tax Act, Cap. 340) individual rate tables. The first seven
+# cases are codex-generated (run 1f763f1e) and hand-verified; the
+# FY2025/26 cases below are orchestrator-computed from the verbatim
+# band bounds in the cited corpus provision per the interim convention
+# in axiom-encode#1060, then verified digit-by-digit through the engine.
+#
+# Resident annual schedule (Part I para 1): nil <= 2,820,000; 10% to
+# 4,020,000; 20% to 4,920,000 (cumulative 120,000 + 180,000 = 300,000);
+# 30% above; additional 10% on chargeable income exceeding 120,000,000.
+# Non-resident (para 2): 10% from zero to 4,020,000 (402,000); 20% to
+# 4,920,000 (582,000); 30% above; same additional 10%.
+# Validation year FY2025/26 (Uganda tax year runs 1 July-30 June); the
+# schedule is unchanged from 1 July 2012 through FY2025/26 (the
+# 2014-2024 amendment prints do not touch Part I).
+#
+# UGAMOD cross-check (SOUTHMOD A4.0, UG_2025, probed live): a formal
+# employee at monthly yem 518,781.30 (annual 6,225,375.60) returns
+# tin_s 57,634.37/month = 691,612.68/year, and the statutory chain
+# below gives 300,000 + 30% x (6,225,375.60 - 4,920,000) = 691,612.68.
+
+- name: resident_individual_tax_second_band
+  period:
+    period_kind: tax_year
+    start: '2012-07-01'
+    end: '2013-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 3420000
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band
+    : 1
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_before_additional_tax
+    : 60000
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income
+    : 0
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 60000
+- name: resident_individual_tax_additional_tax
+  period:
+    period_kind: tax_year
+    start: '2012-07-01'
+    end: '2013-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 121920000
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band
+    : 3
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_before_additional_tax
+    : 35400000
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income
+    : 192000
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 35592000
+- name: nonresident_individual_tax_second_band
+  period:
+    period_kind: tax_year
+    start: '2012-07-01'
+    end: '2013-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 4620000
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_band
+    : 1
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_before_additional_tax
+    : 522000
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax: 522000
+- name: nonresident_individual_tax_additional_tax
+  period:
+    period_kind: tax_year
+    start: '2012-07-01'
+    end: '2013-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 121920000
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_band
+    : 2
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_before_additional_tax
+    : 35682000
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income
+    : 192000
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax: 35874000
+- name: auto_zero_resident_individual_income_tax_band
+  period:
+    period_kind: tax_year
+    start: '2026-01-01'
+    end: '2026-12-31'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 0
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band
+    : 0
+- name: auto_zero_nonresident_individual_income_tax_band
+  period:
+    period_kind: tax_year
+    start: '2026-01-01'
+    end: '2026-12-31'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 0
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_band
+    : 0
+- name: auto_zero_resident_individual_income_tax_before_additional_tax
+  period:
+    period_kind: tax_year
+    start: '2026-01-01'
+    end: '2026-12-31'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 0
+  output:
+    ? ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_before_additional_tax
+    : 0
+
+- name: fy2025_26_resident_nil_band_positive_income
+  # 2,000,000 <= 2,820,000: band 0, no tax.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 2000000
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band: 0
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 0
+
+- name: fy2025_26_resident_20_percent_band
+  # 120,000 + 20% x (4,500,000 - 4,020,000) = 120,000 + 96,000 = 216,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 4500000
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band: 2
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 216000
+
+- name: fy2025_26_resident_30_percent_band_interior
+  # 300,000 + 30% x (6,000,000 - 4,920,000) = 300,000 + 324,000 = 624,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 6000000
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band: 3
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 624000
+
+- name: fy2025_26_resident_band_boundary_4920000
+  # Exactly at the 20%-band top: cumulative 120,000 + 180,000 = 300,000
+  # (the resident cumulative the OCR garbles as "300.000" - derived here
+  # from band sizes x rates, never a literal).
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 4920000
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band: 2
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 300000
+
+- name: fy2025_26_resident_surcharge_threshold_boundary
+  # Exactly 120,000,000: additional tax is zero; before-additional =
+  # 300,000 + 30% x 115,080,000 = 34,824,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 120000000
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income: 0
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 34824000
+
+- name: fy2025_26_resident_surcharge_150m
+  # 300,000 + 30% x 145,080,000 = 43,824,000; additional 10% x 30,000,000
+  # = 3,000,000; total 46,824,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 150000000
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_before_additional_tax: 43824000
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income: 3000000
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 46824000
+
+- name: fy2025_26_ugamod_cross_check_probe_income
+  # Live UGAMOD UG_2025 probe income (annual 6,225,375.60): statutory
+  # 300,000 + 30% x 1,305,375.60 = 691,612.68 = 12 x the probed monthly
+  # tin_s 57,634.37 (0.01 of rounding at the monthly grain).
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 6225375.60
+  output:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax: 691612.68
