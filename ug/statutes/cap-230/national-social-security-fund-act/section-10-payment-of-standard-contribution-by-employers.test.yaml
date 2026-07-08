@@ -1,0 +1,76 @@
+- name: positive annual wages compute standard employee and employer shares
+  period:
+    period_kind: custom
+    name: calendar_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages
+    : 1200000
+  output:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_standard_contribution
+    : 180000
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+    : 60000
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share
+    : 120000
+- name: negative wages floor contribution base at zero
+  period:
+    period_kind: custom
+    name: calendar_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages
+    : -100000
+  output:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_standard_contribution
+    : 0
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+    : 0
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share
+    : 0
+
+# Orchestrator-computed cases per axiom-encode#1060, cross-checked live
+# against UGAMOD (SOUTHMOD A4.0, UG_2025): tscee_s = exactly 5% and
+# tscer_s = exactly 10% of post-uprating yem at every probed income -
+# the employee share and the employer-net share of the statutory 15%
+# standard contribution this module encodes.
+- name: fy2025_26_standard_contribution_at_12m
+  # 15% x 12,000,000 = 1,800,000; employee share 5% = 600,000;
+  # employer net = 1,200,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 12000000
+  output:
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_standard_contribution: 1800000
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share: 600000
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share: 1200000
+
+- name: fy2025_26_ugamod_probe_income
+  # The PAYE-suite probe income 6,225,375.60: employee share 311,268.78
+  # = the probed monthly tscee_s x 12; employer net 622,537.56 = tscer_s.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 6225375.60
+  output:
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share: 311268.78
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share: 622537.56
+
+- name: zero_wages_all_zero
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 0
+  output:
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_standard_contribution: 0
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share: 0
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share: 0
