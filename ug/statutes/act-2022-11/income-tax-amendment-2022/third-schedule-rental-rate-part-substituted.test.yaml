@@ -1,0 +1,65 @@
+- name: no_tax_at_threshold
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#input.gross_rental_income: 2820000
+  output:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax: 0
+- name: tax_on_excess_rental_income
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#input.gross_rental_income: 3820000
+  output:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax: 120000
+
+# Orchestrator-computed cases per axiom-encode#1060: hand arithmetic from
+# the verbatim Part VI rows, verified through the engine, with the two
+# UGAMOD probe incomes (SOUTHMOD A4.0, UG_2025: tpr_s at gross 5,000,000
+# -> 261,600 and at 10,000,000 -> 861,600, both probed live and equal to
+# the statutory 12% x (gross - 2,820,000)).
+- name: fy2025_26_below_threshold_no_tax
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#input.gross_rental_income: 2000000
+  output:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax: 0
+
+- name: fy2025_26_ugamod_probe_5m
+  # 12% x (5,000,000 - 2,820,000) = 261,600 (probed live in UGAMOD).
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#input.gross_rental_income: 5000000
+  output:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax: 261600
+
+- name: fy2025_26_ugamod_probe_10m
+  # 12% x (10,000,000 - 2,820,000) = 861,600 (probed live in UGAMOD).
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#input.gross_rental_income: 10000000
+  output:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax: 861600
+
+- name: zero_rental_income_all_zero
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#input.gross_rental_income: 0
+  output:
+    ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax: 0

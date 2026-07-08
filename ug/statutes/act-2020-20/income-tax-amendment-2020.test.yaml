@@ -1,0 +1,156 @@
+- name: nil tax where turnover does not exceed ten million
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 5000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_tax_turnover_band: 0
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 0
+- name: with records tax for turnover above thirty million and not above fifty million
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 35000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_tax_turnover_band: 2
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 105000
+- name: without records fixed tax for turnover above fifty million and not above eighty
+    million
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 60000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: false
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_tax_turnover_band: 3
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 400000
+- name: with records tax for final bounded turnover band
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 100000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_tax_turnover_band: 4
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 500000
+- name: turnover above one hundred and fifty million is outside the presumptive regime
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 151000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: false
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_tax_turnover_band: -1
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 0
+
+# Orchestrator-computed cases per axiom-encode#1060: hand arithmetic from
+# the verbatim Second Schedule bands, verified through the engine and
+# cross-checked live against UGAMOD (SOUTHMOD A4.0, UG_2025) at the
+# engine's post-uprating turnovers: with records ttn_s = 43,005.01 at
+# 20,751,252 (= 0.4% x excess over 10m), 137,512.52 at 41,502,504,
+# 253,522.54 at 62,253,756, 526,293.82 at 103,756,260 - all exactly the
+# statutory cumulative components this module encodes.
+- name: fy2025_26_without_records_band_amounts
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 40000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: false
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_tax_turnover_band: 2
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 200000
+
+- name: fy2025_26_without_records_top_band
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 100000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: false
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 900000
+
+- name: fy2025_26_with_records_band1
+  # 0.4% x (20,000,000 - 10,000,000) = 40,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 20000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 40000
+
+- name: fy2025_26_with_records_band2
+  # 80,000 + 0.5% x (40,000,000 - 30,000,000) = 130,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 40000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 130000
+
+- name: fy2025_26_with_records_band3
+  # 180,000 + 0.6% x (60,000,000 - 50,000,000) = 240,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 60000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 240000
+
+- name: fy2025_26_with_records_band4
+  # 360,000 + 0.7% x (100,000,000 - 80,000,000) = 500,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 100000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 500000
+
+- name: fy2025_26_above_ceiling_regime_not_applicable
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 160000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: false
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 0
+
+- name: fy2025_26_nil_band
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.annual_gross_turnover: 8000000
+    ug:statutes/act-2020-20/income-tax-amendment-2020#input.taxpayer_keeps_records: true
+  output:
+    ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits: 0
