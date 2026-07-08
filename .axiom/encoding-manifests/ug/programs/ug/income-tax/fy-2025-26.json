@@ -1,0 +1,38 @@
+{
+  "applied_files": [
+    {
+      "path": "programs/ug/income-tax/fy-2025-26.yaml",
+      "sha256": "6c00a879649986386ea0c9313f6d5ed7262549940b6323390f1add0d56f1f55f"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "9759dd348474c15f9fca71253431db76b9273fc7",
+    "dirty_tracked": false,
+    "root": "/Users/maxghenis/TheAxiomFoundation/axiom-encode",
+    "version": "0.2.1192",
+    "version_commit": "9759dd348474c15f9fca71253431db76b9273fc7"
+  },
+  "axiom_encode_version": "0.2.1192",
+  "backend": "manual",
+  "citation": "ug:programs/ug/income-tax/fy-2025-26",
+  "context_manifest_file": null,
+  "context_manifest_sha256": null,
+  "generated_at": "2026-07-08T12:18:54.326813+00:00",
+  "generated_output_file": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmpdgn3e382/sign-applied-files/programs/ug/income-tax/fy-2025-26.yaml",
+  "generated_output_root": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmpdgn3e382",
+  "generated_output_sha256": "6c00a879649986386ea0c9313f6d5ed7262549940b6323390f1add0d56f1f55f",
+  "generation_prompt_sha256": null,
+  "manual_exception": "composition",
+  "model": "",
+  "run_id": null,
+  "runner": "manual-attestation",
+  "schema_version": "axiom-encode/applied-rulespec/v1",
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "axiom-encode-apply-v1",
+    "value": "aa748a2a4cc61abfc1bae2025948d7e6816536f4d23be5138a5758071a5adfae"
+  },
+  "tool": "axiom-encode sign-applied-files",
+  "trace_file": null,
+  "trace_sha256": null
+}

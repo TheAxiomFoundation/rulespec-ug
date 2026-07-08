@@ -1,0 +1,64 @@
+# Companion fixtures for the composed single-employee disposable-income
+# pipeline (rulespec-ug#1). The imports carry their own inputs: the
+# Third Schedule tax reads chargeable_income and the Cap. 230 employee
+# share reads total_wages; for the plain formal employee both equal
+# gross employment income, so each case feeds the same gross to both.
+# Hand arithmetic verified through the engine and cross-checked live
+# against UGAMOD ils_dispy (identity exact at every tested income).
+
+- name: fy2025_26_low_income_nil_tax
+  # Gross 1,200,000: tax 0; share 60,000; dispy 1,140,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 1200000
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 1200000
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#input.benefits_received: 0
+  output:
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 0
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 1140000
+
+- name: fy2025_26_probe_income
+  # Gross 6,225,375.60: tax 691,612.68; share 311,268.78;
+  # dispy 5,222,494.14 (all three probed live in UGAMOD).
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 6225375.60
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 6225375.60
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#input.benefits_received: 0
+  output:
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 691612.68
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 5222494.14
+
+- name: fy2025_26_with_benefits
+  # Gross 12,000,000 + benefits 300,000: tax 2,424,000; share 600,000;
+  # dispy 9,276,000.
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 12000000
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 12000000
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#input.benefits_received: 300000
+  output:
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 2424000
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 9276000
+
+- name: zero_income_zero_everything
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#input.chargeable_income: 0
+    ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#input.total_wages: 0
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#input.benefits_received: 0
+  output:
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 0
+    ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 0
