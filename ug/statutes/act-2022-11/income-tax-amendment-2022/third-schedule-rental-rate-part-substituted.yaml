@@ -1,0 +1,85 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - ug/statute/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted
+      - ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended
+  summary: |-
+    Part VI Rate of Rental Tax applicable to an individual: Gross rental income not exceeding Ushs. 2,820,000 per annum (235,000 per month): Nil; exceeding Ushs. 2,820,000: 12%.
+rules:
+  - name: rental_tax_threshold
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    period: Year
+    source: Third Schedule, Part VI, rental tax rate table
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted
+              excerpt: "Not exceeding Ushs. 2,820,000 per annum"
+    versions:
+      - effective_from: '2022-07-01'
+        formula: |-
+          2820000
+
+  - name: rental_tax_threshold_monthly_equivalent
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    period: Month
+    source: Third Schedule, Part VI, rental tax rate table
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted
+              excerpt: "(235,000 per month)"
+    versions:
+      - effective_from: '2022-07-01'
+        formula: |-
+          235000
+
+  - name: rental_tax_rate
+    kind: parameter
+    dtype: Rate
+    source: Third Schedule, Part VI, rental tax rate table
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted
+              excerpt: "Exceeding Ushs. 2,820,000 12%"
+    versions:
+      - effective_from: '2022-07-01'
+        formula: |-
+          0.12
+
+  - name: individual_rental_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Year
+    source: Third Schedule, Part VI, rental tax rate table
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted
+              excerpt: "Gross rental income Rate of tax Not exceeding Ushs. 2,820,000 per annum (235,000 per month) Nil Exceeding Ushs. 2,820,000 12%"
+    versions:
+      - effective_from: '2022-07-01'
+        formula: |-
+          rental_tax_rate * max(0, gross_rental_income - rental_tax_threshold)

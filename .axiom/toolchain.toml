@@ -5,6 +5,6 @@
 axiom_encode_version = "0.2.1188"
 axiom_encode_ref = "a8e70e54517ad90e17e503f6f97f55dc5e0e754a"
 axiom_rules_engine_ref = "78f8e3e1df3baec36e31ed79d252dabb29f7ed2f"
-axiom_corpus_ref = "d8fee082a4f566acc70d4ce9c8a2eff1ebac2101"
+axiom_corpus_ref = "fe45c0c05dd5d72e8b2273f6b60c6c655d715704"
 # Canonical-targets checkout for cross-repo validation (rulespec-us main).
 rulespec_us_ref = "40b01789d58c25e83b5ada6bcd8ce3d718395920"

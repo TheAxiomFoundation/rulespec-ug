@@ -1,0 +1,175 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+  summary: |-
+    Date of Commencement: 1st July, 2020. Section 9 substitutes the Second Schedule: "The amount of tax payable for purposes of section 4(5)" uses gross turnover bands up to one hundred and fifty million shillings, with nil tax for turnover not exceeding ten million shillings, fixed amounts for taxpayers without records, and percentage-of-excess formulas for taxpayers with records. The paragraph reducing tax payable by credits under sections 128(3) and 111(8) is not encoded in the executable output below.
+  deferred_outputs:
+    - output: ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_payable_after_credits
+      reason: Credit reductions under sections 128(3) and 111(8) are stated in the substituted Second Schedule but those cited credit computations are outside this encoding surface and no copied RuleSpec target provides the exact credit outputs.
+rules:
+  - name: gross_turnover_band_lower_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: presumptive_tax_turnover_band
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "exceeds Eighty million shillings"
+              table:
+                header: "Second Schedule Tax rates with records / Tax rates without records"
+                row_key: "Gross turnover"
+                column_key: "lower bound"
+    versions:
+      - effective_from: '2020-07-01'
+        values:
+          0: 0
+          1: 10000000
+          2: 30000000
+          3: 50000000
+          4: 80000000
+
+  - name: gross_turnover_band_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: presumptive_tax_turnover_band
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "does not exceed one hundred and fifty million shillings"
+              table:
+                header: "Second Schedule Tax rates with records / Tax rates without records"
+                row_key: "Gross turnover"
+                column_key: "upper bound"
+    versions:
+      - effective_from: '2020-07-01'
+        values:
+          0: 10000000
+          1: 30000000
+          2: 50000000
+          3: 80000000
+          4: 150000000
+
+  - name: presumptive_regime_gross_turnover_ceiling
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "does not exceed one hundred and fifty million shillings per annum"
+    versions:
+      - effective_from: '2020-07-01'
+        formula: |-
+          gross_turnover_band_upper_bound[4]
+
+  - name: tax_with_records_rate
+    kind: parameter
+    dtype: Rate
+    indexed_by: presumptive_tax_turnover_band
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "0.4 % of the annual turnover in excess of ten million shillings"
+              table:
+                header: "Second Schedule Tax rates with records"
+                row_key: "Gross turnover"
+                column_key: "Tax rates with records"
+    versions:
+      - effective_from: '2020-07-01'
+        values:
+          0: 0
+          1: 0.004
+          2: 0.005
+          3: 0.006
+          4: 0.007
+
+  - name: tax_without_records_amount
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    indexed_by: presumptive_tax_turnover_band
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "Four hundred thousand shillings"
+              table:
+                header: "Second Schedule Tax rates without records"
+                row_key: "Gross turnover"
+                column_key: "Tax rates without records"
+    versions:
+      - effective_from: '2020-07-01'
+        values:
+          0: 0
+          1: 80000
+          2: 200000
+          3: 400000
+          4: 900000
+
+  - name: presumptive_tax_turnover_band
+    kind: derived
+    entity: Person
+    dtype: Integer
+    period: Year
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "Gross turnover Where the gross turnover of the taxpayer does not exceed ten million shillings per annum"
+    versions:
+      - effective_from: '2020-07-01'
+        formula: |-
+          if annual_gross_turnover > presumptive_regime_gross_turnover_ceiling: -1 else: if annual_gross_turnover <= gross_turnover_band_upper_bound[0]: 0 else: if annual_gross_turnover <= gross_turnover_band_upper_bound[1]: 1 else: if annual_gross_turnover <= gross_turnover_band_upper_bound[2]: 2 else: if annual_gross_turnover <= gross_turnover_band_upper_bound[3]: 3 else: 4
+
+  - name: presumptive_small_business_income_tax_before_credits
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Income Tax (Amendment) Act, 2020, s.9, substituted Second Schedule, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2020-20/income-tax-amendment-2020
+              excerpt: "The amount of tax payable for purposes of section 4(5) is"
+    versions:
+      - effective_from: '2020-07-01'
+        formula: |-
+          if presumptive_tax_turnover_band == -1: 0 else: if presumptive_tax_turnover_band == 0: 0 else: if taxpayer_keeps_records: (if presumptive_tax_turnover_band == 1: tax_with_records_rate[1] * (annual_gross_turnover - gross_turnover_band_lower_bound[1]) else: if presumptive_tax_turnover_band == 2: (tax_with_records_rate[1] * (gross_turnover_band_upper_bound[1] - gross_turnover_band_lower_bound[1])) + (tax_with_records_rate[2] * (annual_gross_turnover - gross_turnover_band_lower_bound[2])) else: if presumptive_tax_turnover_band == 3: (tax_with_records_rate[1] * (gross_turnover_band_upper_bound[1] - gross_turnover_band_lower_bound[1])) + (tax_with_records_rate[2] * (gross_turnover_band_upper_bound[2] - gross_turnover_band_lower_bound[2])) + (tax_with_records_rate[3] * (annual_gross_turnover - gross_turnover_band_lower_bound[3])) else: (tax_with_records_rate[1] * (gross_turnover_band_upper_bound[1] - gross_turnover_band_lower_bound[1])) + (tax_with_records_rate[2] * (gross_turnover_band_upper_bound[2] - gross_turnover_band_lower_bound[2])) + (tax_with_records_rate[3] * (gross_turnover_band_upper_bound[3] - gross_turnover_band_lower_bound[3])) + (tax_with_records_rate[4] * (annual_gross_turnover - gross_turnover_band_lower_bound[4]))) else: tax_without_records_amount[presumptive_tax_turnover_band]

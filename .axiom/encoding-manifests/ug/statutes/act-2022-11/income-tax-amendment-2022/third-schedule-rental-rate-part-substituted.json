@@ -1,0 +1,42 @@
+{
+  "applied_files": [
+    {
+      "path": "ug/statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted.test.yaml",
+      "sha256": "bbe46509cf879fdb13f54f94af5eb8bed41a504974b2f019ff2aca0da6f8e725"
+    },
+    {
+      "path": "ug/statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted.yaml",
+      "sha256": "4db62a0758aff66307512f174da9d99e1290ce5b5aec578d367092003123d251"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "d7551b04a7bba8b7600e80485b4e0f05ee4238bd",
+    "dirty_tracked": false,
+    "root": "/Users/maxghenis/TheAxiomFoundation/axiom-encode",
+    "version": "0.2.1189",
+    "version_commit": "d7551b04a7bba8b7600e80485b4e0f05ee4238bd"
+  },
+  "axiom_encode_version": "0.2.1189",
+  "backend": "manual",
+  "citation": "ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted",
+  "context_manifest_file": null,
+  "context_manifest_sha256": null,
+  "generated_at": "2026-07-08T09:58:05.554977+00:00",
+  "generated_output_file": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmpw26c79pu/sign-applied-files/ug/statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted.yaml",
+  "generated_output_root": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmpw26c79pu",
+  "generated_output_sha256": "4db62a0758aff66307512f174da9d99e1290ce5b5aec578d367092003123d251",
+  "generation_prompt_sha256": null,
+  "manual_exception": "#1",
+  "model": "",
+  "run_id": null,
+  "runner": "manual-attestation",
+  "schema_version": "axiom-encode/applied-rulespec/v1",
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "axiom-encode-apply-v1",
+    "value": "4142662af1051648e9d3a3c2dbe4094ca610a77624ee726bdd573e2b2f4f4dbc"
+  },
+  "tool": "axiom-encode sign-applied-files",
+  "trace_file": null,
+  "trace_sha256": null
+}
