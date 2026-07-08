@@ -1,0 +1,46 @@
+- name: annual fuel excise duty for petrol and diesel consumption
+  period:
+    period_kind: custom
+    name: calendar_year
+    start: '2024-07-01'
+    end: '2025-06-30'
+  input:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.petrol_litres: 10
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.diesel_litres: 5
+  output:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#fuel_excise_duty: 21650
+- name: negative fuel litre inputs are floored at zero
+  period:
+    period_kind: custom
+    name: calendar_year
+    start: '2024-07-01'
+    end: '2025-06-30'
+  input:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.petrol_litres: -2
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.diesel_litres: 3
+  output:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#fuel_excise_duty: 3690
+
+# Orchestrator-computed cases: the substituted item 8 rows (petrol
+# Shs 1550/l, diesel Shs 1230/l - exactly UGAMOD's $ed10 constants).
+- name: fy2025_26_fuel_excise_100l_each
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.petrol_litres: 100
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.diesel_litres: 100
+  output:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#fuel_excise_duty: 278000
+
+- name: fy2025_26_petrol_only_500l
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.petrol_litres: 500
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#input.diesel_litres: 0
+  output:
+    ug:statutes/act-2024-excise/excise-duty-amendment-2024#fuel_excise_duty: 775000

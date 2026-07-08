@@ -1,0 +1,79 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+  summary: |-
+    Commencement: "This Act shall come into force on 1st July, 2024." Schedule 2 item 8 is substituted: "(a) Motor spirit (gasoline) Shs 1550 per litre" and "(b) Gas oil (automotive, light, amber for high speed engines) Shs 1230 per litre."
+rules:
+  - name: petrol_excise_per_litre
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    source: Excise Duty (Amendment) Act, 2024, section 3(h), Schedule 2 item 8(a)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+              excerpt: "Motor spirit (gasoline) Shs 1550 per litre"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+              excerpt: "come into force on 1st July, 2024"
+    versions:
+      - effective_from: '2024-07-01'
+        formula: |-
+          1550
+
+  - name: diesel_excise_per_litre
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    source: Excise Duty (Amendment) Act, 2024, section 3(h), Schedule 2 item 8(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+              excerpt: "Gas oil (automotive, light, amber for high speed engines) Shs 1230 per litre"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+              excerpt: "come into force on 1st July, 2024"
+    versions:
+      - effective_from: '2024-07-01'
+        formula: |-
+          1230
+
+  - name: fuel_excise_duty
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: Excise Duty (Amendment) Act, 2024, section 3(h), Schedule 2 item 8
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+              excerpt: "(a) Motor spirit (gasoline) Shs 1550 per litre (b) Gas oil (automotive, light, amber for high speed engines) Shs 1230 litre;"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
+              excerpt: "come into force on 1st July, 2024"
+    versions:
+      - effective_from: '2024-07-01'
+        formula: |-
+          petrol_excise_per_litre * max(0, petrol_litres) + diesel_excise_per_litre * max(0, diesel_litres)

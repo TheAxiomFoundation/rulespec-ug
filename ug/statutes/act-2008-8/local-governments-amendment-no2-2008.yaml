@@ -1,0 +1,149 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+  summary: |-
+    Regulation 3 provides annual local service tax rates for persons in gainful employment earning monthly take-home salary: exceeding Shs 100,000 but not exceeding Shs 200,000 is Shs 5,000 per year, through exceeding Shs 1,000,000 onwards at Shs 100,000 per year.
+  deferred_outputs:
+    - output: ug:statutes/act-2008-8/local-governments-amendment-no2-2008/f#local_service_tax_exemption_for_people_living_in_poverty
+      reason: The prompt scopes this artifact to regulation 3 salaried-employee rates only; exemption categories in regulation 2(3), including people living in poverty unable to earn a minimum income for basic necessities, are out of scope.
+    - output: ug:statutes/act-2008-8/local-governments-amendment-no2-2008#self_employed_local_service_tax
+      reason: The self-employed classes (professionals, businessmen and businesswomen, artisans, commercial farmers) carry their own banded amounts in the inserted regulations; this module encodes the salaried-employee table (the UGAMOD tgv_ug parity target) and defers the self-employed classes to their own module.
+    - output: ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_government_hotel_tax
+      reason: The local government hotel tax (Division I of the inserted regulations, including the 40% surcharge on un-remitted tax) is a separate instrument collected from hotels; out of scope for the household-level LST module.
+rules:
+  - name: salary_band_lower_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    period: Month
+    indexed_by: local_service_tax_salary_band
+    source: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+              table:
+                header: Rates of local service tax in respect of persons in gainful employment and earning a monthly take-home salary
+                row_key: amount of monthly income earned
+                column_key: lower bound
+    versions:
+      - effective_from: '2008-07-01'
+        values:
+          1: 100000
+          2: 200000
+          3: 300000
+          4: 400000
+          5: 500000
+          6: 600000
+          7: 700000
+          8: 800000
+          9: 900000
+          10: 1000000
+
+  - name: salary_band_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    period: Month
+    indexed_by: local_service_tax_salary_band
+    source: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+              table:
+                header: Rates of local service tax in respect of persons in gainful employment and earning a monthly take-home salary
+                row_key: amount of monthly income earned
+                column_key: upper bound
+    versions:
+      - effective_from: '2008-07-01'
+        values:
+          1: 200000
+          2: 300000
+          3: 400000
+          4: 500000
+          5: 600000
+          6: 700000
+          7: 800000
+          8: 900000
+          9: 1000000
+
+  - name: local_service_tax_salary_rate
+    kind: parameter
+    dtype: Money
+    unit: UGX
+    period: Year
+    indexed_by: local_service_tax_salary_band
+    source: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+              table:
+                header: Rates of local service tax in respect of persons in gainful employment and earning a monthly take-home salary
+                row_key: amount of monthly income earned
+                column_key: rate of local service tax per year
+    versions:
+      - effective_from: '2008-07-01'
+        values:
+          1: 5000
+          2: 10000
+          3: 20000
+          4: 30000
+          5: 40000
+          6: 60000
+          7: 70000
+          8: 80000
+          9: 90000
+          10: 100000
+
+  - name: local_service_tax_salary_band
+    kind: derived
+    entity: Person
+    dtype: Integer
+    period: Year
+    source: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+              excerpt: "Exceeding 100,000= but not exceeding 200,000= 5,000="
+    versions:
+      - effective_from: '2008-07-01'
+        formula: |-
+          if monthly_take_home_income > salary_band_lower_bound[1] and monthly_take_home_income <= salary_band_upper_bound[1]: 1 else: if monthly_take_home_income > salary_band_lower_bound[2] and monthly_take_home_income <= salary_band_upper_bound[2]: 2 else: if monthly_take_home_income > salary_band_lower_bound[3] and monthly_take_home_income <= salary_band_upper_bound[3]: 3 else: if monthly_take_home_income > salary_band_lower_bound[4] and monthly_take_home_income <= salary_band_upper_bound[4]: 4 else: if monthly_take_home_income > salary_band_lower_bound[5] and monthly_take_home_income <= salary_band_upper_bound[5]: 5 else: if monthly_take_home_income > salary_band_lower_bound[6] and monthly_take_home_income <= salary_band_upper_bound[6]: 6 else: if monthly_take_home_income > salary_band_lower_bound[7] and monthly_take_home_income <= salary_band_upper_bound[7]: 7 else: if monthly_take_home_income > salary_band_lower_bound[8] and monthly_take_home_income <= salary_band_upper_bound[8]: 8 else: if monthly_take_home_income > salary_band_lower_bound[9] and monthly_take_home_income <= salary_band_upper_bound[9]: 9 else: if monthly_take_home_income > salary_band_lower_bound[10]: 10 else: -1
+
+  - name: local_service_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Year
+    source: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2008-8/local-governments-amendment-no2-2008
+              excerpt: "The local service tax on persons in gainful employment and earning a monthly take-home salary shall be levied as follows"
+    versions:
+      - effective_from: '2008-07-01'
+        formula: |-
+          if local_service_tax_salary_band == -1: 0 else: local_service_tax_salary_rate[local_service_tax_salary_band]

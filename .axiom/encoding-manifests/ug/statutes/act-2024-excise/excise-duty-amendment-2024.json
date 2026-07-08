@@ -1,0 +1,42 @@
+{
+  "applied_files": [
+    {
+      "path": "ug/statutes/act-2024-excise/excise-duty-amendment-2024.test.yaml",
+      "sha256": "ef81f6725fe0ebe1213ab5363377401231fe037e9feed5e8b19a4c89023b115c"
+    },
+    {
+      "path": "ug/statutes/act-2024-excise/excise-duty-amendment-2024.yaml",
+      "sha256": "2ada8e717362abd74f58ca490ea9a1d26a444dbcae28f2e4bdc3491103263b39"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "9759dd348474c15f9fca71253431db76b9273fc7",
+    "dirty_tracked": false,
+    "root": "/Users/maxghenis/TheAxiomFoundation/axiom-encode",
+    "version": "0.2.1192",
+    "version_commit": "9759dd348474c15f9fca71253431db76b9273fc7"
+  },
+  "axiom_encode_version": "0.2.1192",
+  "backend": "manual",
+  "citation": "ug:statutes/act-2024-excise/excise-duty-amendment-2024",
+  "context_manifest_file": null,
+  "context_manifest_sha256": null,
+  "generated_at": "2026-07-08T12:08:36.888854+00:00",
+  "generated_output_file": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmp88wlrqew/sign-applied-files/ug/statutes/act-2024-excise/excise-duty-amendment-2024.yaml",
+  "generated_output_root": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmp88wlrqew",
+  "generated_output_sha256": "2ada8e717362abd74f58ca490ea9a1d26a444dbcae28f2e4bdc3491103263b39",
+  "generation_prompt_sha256": null,
+  "manual_exception": "#1",
+  "model": "",
+  "run_id": null,
+  "runner": "manual-attestation",
+  "schema_version": "axiom-encode/applied-rulespec/v1",
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "axiom-encode-apply-v1",
+    "value": "aef9b86b2457c8f4439943489c8e8526879e668485ce08aee30f88698826ca48"
+  },
+  "tool": "axiom-encode sign-applied-files",
+  "trace_file": null,
+  "trace_sha256": null
+}

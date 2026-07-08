@@ -1,0 +1,42 @@
+- name: standard VAT on positive taxable value in FY2025-26
+  period:
+    period_kind: custom
+    name: fiscal_year_2025_26
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#input.taxable_value: 100000
+  output:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#vat_amount: 18000
+- name: standard VAT floors negative taxable value at zero
+  period:
+    period_kind: custom
+    name: fiscal_year_2025_26
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#input.taxable_value: -50000
+  output:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#vat_amount: 0
+
+# Orchestrator-computed cases: 18% of the taxable value (UGAMOD applies
+# $vat_rate = 0.18 to every standard-rated COICOP base, probed).
+- name: fy2025_26_vat_on_1m_taxable_value
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#input.taxable_value: 1000000
+  output:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#vat_amount: 180000
+
+- name: zero_taxable_value
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#input.taxable_value: 0
+  output:
+    ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#vat_amount: 0

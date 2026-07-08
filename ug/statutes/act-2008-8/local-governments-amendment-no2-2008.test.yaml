@@ -1,0 +1,96 @@
+- name: no local service tax at threshold
+  period:
+    period_kind: custom
+    name: financial_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 100000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax_salary_band: -1
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 0
+- name: first salary band
+  period:
+    period_kind: custom
+    name: financial_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 150000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax_salary_band: 1
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 5000
+- name: middle salary band
+  period:
+    period_kind: custom
+    name: financial_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 650000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax_salary_band: 6
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 60000
+- name: open ended top salary band
+  period:
+    period_kind: custom
+    name: financial_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 1200000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax_salary_band: 10
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 100000
+
+# Orchestrator-computed cases per axiom-encode#1060, matching the
+# statutory salaried-employee table and UGAMOD's tgv_ug bands exactly.
+- name: fy2025_26_band1_150k
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 150000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 5000
+
+- name: fy2025_26_band2_250k
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 250000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 10000
+
+- name: fy2025_26_top_band_1500k
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 1500000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 100000
+
+- name: fy2025_26_at_100k_no_tax
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 100000
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 0
+
+- name: zero_income_no_tax
+  period:
+    period_kind: tax_year
+    start: '2025-07-01'
+    end: '2026-06-30'
+  input:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#input.monthly_take_home_income: 0
+  output:
+    ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax: 0
