@@ -1,0 +1,22 @@
+# Uganda resident-individual income tax -- FY2025/26 year of income
+#
+# Composes the flagship gross-to-tax calculation (rulespec-ug#1): the
+# Act 4 of 2012 substituted Third Schedule resident rates applied to
+# the employee's chargeable income, the Cap. 230 section 11 employee's
+# share of the NSSF standard contribution, and the composed
+# disposable-income identity for the single-employee surface. Rental,
+# presumptive, LST, VAT, excise and the Senior Citizens Grant are
+# separate program surfaces.
+
+program: ug/income-tax
+period: '2025-07'
+
+outputs:
+  - pilot_worker_income_tax
+  - pilot_worker_disposable_income
+
+scope:
+  ug:
+    - ug/statutes/composed/pilot-worker-disposable-income-pipeline
+    - ug/statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+    - ug/statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers

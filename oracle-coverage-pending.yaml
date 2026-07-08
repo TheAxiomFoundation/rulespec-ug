@@ -8,7 +8,7 @@
 # Maintained by: axiom-encode oracle-coverage-pending sync.
 version: 1
 issue: https://github.com/TheAxiomFoundation/rulespec-ug/issues/1
-ceiling: 39
+ceiling: 43
 entries:
   - legal_id: ug:policies/mglsd-scg/sage-handbook#months_in_year_for_annual_grant
     source: manual
@@ -23,6 +23,12 @@ entries:
     source: manual
     since: 2026-07-08
   - legal_id: ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:programs/income-tax/fy-2025-26#pilot_worker_disposable_income
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:programs/income-tax/fy-2025-26#pilot_worker_income_tax
     source: manual
     since: 2026-07-08
   - legal_id: ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#standard_vat_rate
@@ -125,5 +131,11 @@ entries:
     source: manual
     since: 2026-07-08
   - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#standard_contribution_rate
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax
     source: manual
     since: 2026-07-08

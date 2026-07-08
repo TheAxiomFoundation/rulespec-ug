@@ -1,0 +1,78 @@
+format: rulespec/v1
+imports:
+  - ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+  - ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+      - ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+    upstream_source_check:
+      status: composed_from_grounded_modules
+      checked_paths:
+        - ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+        - ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+      rationale: >-
+        Every value this pipeline uses is imported from an
+        already-grounded module: the Act 4 of 2012 substituted Third
+        Schedule resident income tax (applied to chargeable income) and
+        the Cap. 230 section 11 employee's share of the NSSF standard
+        contribution. The pipeline adds no new parameters - it wires the
+        grounded stages into the single-employee disposable-income
+        identity for the UGAMOD oracle slice.
+  summary: |-
+    Composed single-employee disposable-income pipeline for the UGAMOD
+    oracle slice at the FY2025/26 year of income (rulespec-ug#1). It
+    wires: the imported Act 4 of 2012 Third Schedule resident income tax
+    applied to the employee's chargeable income - for a plain formal
+    employee with no other income or reliefs, gross employment income
+    (the Income Tax Act contains no deduction of the employee's NSSF
+    share from chargeable employment income, unlike Ghana's Act 766
+    s.112(2); UGAMOD's ttb_s = yem matches this) - and the imported
+    Cap. 230 section 11 five percent employee's share of the standard
+    contribution; disposable income = gross plus supplied benefits less
+    income tax less the employee share, mirroring UGAMOD's ils_dispy =
+    ils_origy + ils_ben - ils_tax - ils_sicee identity (decomposition
+    probed live: 103,756.26 = gross 103,756.26 - tax 0 - share 5,187.81
+    at the low-income probe, and exact at every tested income).
+rules:
+  - name: pilot_worker_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Year
+    source: Imported Act 4 of 2012 Third Schedule resident income tax on the employee's chargeable income (equal to gross employment income for the plain formal employee - the Income Tax Act contains no employee NSSF deduction)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
+              excerpt: "Not exceeding Ushs 2,820,000 | Nil Exceeding Ushs. 2,820,000 but not) 10%"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          resident_individual_income_tax
+  - name: pilot_worker_disposable_income
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Year
+    source: Composed identity — chargeable (gross) employment income plus supplied benefits less income tax less the imported Cap. 230 s.11 employee share on total wages (UGAMOD ils_dispy mirror)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: "the employee's share of a standard contribution of 5 percent calculated on the total wages"
+    versions:
+      - effective_from: '2012-07-01'
+        formula: |-
+          chargeable_income + max(0, benefits_received) - pilot_worker_income_tax - nssf_employee_share
