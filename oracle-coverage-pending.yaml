@@ -8,7 +8,7 @@
 # Maintained by: axiom-encode oracle-coverage-pending sync.
 version: 1
 issue: https://github.com/TheAxiomFoundation/rulespec-ug/issues/1
-ceiling: 20
+ceiling: 26
 entries:
   - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income
     source: manual
@@ -68,5 +68,23 @@ entries:
     source: manual
     since: 2026-07-08
   - legal_id: ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#rental_tax_threshold_monthly_equivalent
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#employee_share_rate
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_standard_contribution
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#standard_contribution_payment_deadline_days
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#standard_contribution_rate
     source: manual
     since: 2026-07-08

@@ -1,0 +1,136 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - ug/statute/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers
+      - ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+  summary: |-
+    Section 10 requires every contributing employer, for each month wages are paid to an eligible employee, to pay "a standard contribution of fifteen percent calculated on the total wages paid during that month to that employce." The copied continuation identifies section 11 as the employee-share rule for "the employee's share of a standard contribution of 5 percent calculated on the total wages."
+rules:
+  - name: standard_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: National Social Security Fund Act Cap. 230, s.10(1)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers
+              excerpt: "a standard contribution of fifteen percent calculated on the total wages"
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          0.15
+
+  - name: employee_share_rate
+    kind: parameter
+    dtype: Rate
+    source: National Social Security Fund Act Cap. 230, s.11
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: "the employee's share of a standard contribution of 5 percent calculated on the total wages"
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          0.05
+
+  - name: standard_contribution_payment_deadline_days
+    kind: parameter
+    dtype: Count
+    source: National Social Security Fund Act Cap. 230, s.10(1)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers
+              excerpt: "within fifteen days next following the last day of the month"
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          15
+
+  - name: nssf_standard_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: National Social Security Fund Act Cap. 230, s.10(1)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers
+              excerpt: "a standard contribution of fifteen percent calculated on the total wages paid"
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers
+              excerpt: "fifteen percent"
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          standard_contribution_rate * max(0, total_wages)
+
+  - name: nssf_employee_share
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: National Social Security Fund Act Cap. 230, s.11
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: "the employee's share of a standard contribution of 5 percent calculated on the total wages"
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: "5 percent"
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          employee_share_rate * max(0, total_wages)
+
+  - name: nssf_employer_net_share
+    kind: derived
+    entity: Person
+    dtype: Money
+    period: Year
+    unit: UGX
+    source: National Social Security Fund Act Cap. 230, ss.10(1), 11
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers
+              excerpt: "a standard contribution of fifteen percent calculated on the total wages"
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: "the employee's share of a standard contribution of 5 percent calculated on the total wages"
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          nssf_standard_contribution - nssf_employee_share
