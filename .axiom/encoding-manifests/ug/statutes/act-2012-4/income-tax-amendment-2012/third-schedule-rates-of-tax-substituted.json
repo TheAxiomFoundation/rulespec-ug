@@ -1,0 +1,42 @@
+{
+  "applied_files": [
+    {
+      "path": "ug/statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted.test.yaml",
+      "sha256": "e7000e51eabbc33cf5ed5404cac6670dcd64786c9cd21f6eedfb212463c291ba"
+    },
+    {
+      "path": "ug/statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted.yaml",
+      "sha256": "4955aeefcd9d410e07e2364fb9f3e36a925d032a98afc2976017460418d3972a"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "d7551b04a7bba8b7600e80485b4e0f05ee4238bd",
+    "dirty_tracked": false,
+    "root": "/Users/maxghenis/TheAxiomFoundation/axiom-encode",
+    "version": "0.2.1189",
+    "version_commit": "d7551b04a7bba8b7600e80485b4e0f05ee4238bd"
+  },
+  "axiom_encode_version": "0.2.1189",
+  "backend": "manual",
+  "citation": "ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted",
+  "context_manifest_file": null,
+  "context_manifest_sha256": null,
+  "generated_at": "2026-07-08T02:14:44.264289+00:00",
+  "generated_output_file": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmpqoocr7kg/sign-applied-files/ug/statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted.yaml",
+  "generated_output_root": "/var/folders/9l/_wztzgbx7mgc7l1r0416cy7m0000gn/T/tmpqoocr7kg",
+  "generated_output_sha256": "4955aeefcd9d410e07e2364fb9f3e36a925d032a98afc2976017460418d3972a",
+  "generation_prompt_sha256": null,
+  "manual_exception": "#1",
+  "model": "",
+  "run_id": null,
+  "runner": "manual-attestation",
+  "schema_version": "axiom-encode/applied-rulespec/v1",
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "axiom-encode-apply-v1",
+    "value": "2b5a916b5704f71c2173503e981e198810effe389449ec5fe59c95dd2602778b"
+  },
+  "tool": "axiom-encode sign-applied-files",
+  "trace_file": null,
+  "trace_sha256": null
+}

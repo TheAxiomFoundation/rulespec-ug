@@ -1,0 +1,45 @@
+# Declared oracle-coverage debt: executable RuleSpec outputs awaiting
+# classification in axiom-oracles PolicyEngine mappings. The
+# oracle-coverage gate treats these as pending_classification (visible,
+# counted, accountable) instead of silently unmapped. Ratchets both
+# ways (see the oracle-coverage-pending CI check): a new unmapped output
+# must be declared here or the gate fails; an entry that is no longer
+# unmapped (classified upstream) must be removed or the check fails.
+# Maintained by: axiom-encode oracle-coverage-pending sync.
+version: 1
+issue: https://github.com/TheAxiomFoundation/rulespec-ug/issues/1
+ceiling: 11
+entries:
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_on_chargeable_income
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_rate
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#additional_tax_threshold
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_band_rate
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_band
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#nonresident_individual_income_tax_before_additional_tax
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_band_rate
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_band
+    source: manual
+    since: 2026-07-08
+  - legal_id: ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax_before_additional_tax
+    source: manual
+    since: 2026-07-08
