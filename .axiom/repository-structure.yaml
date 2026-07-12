@@ -4,7 +4,7 @@ allowed_root_directories:
   - .github
   - bulk
   - data
-  - programs
+  - ug/programs
   - tests
   - ug
 allowed_root_files:
@@ -43,7 +43,7 @@ path_rules:
       - ".yaml"
       - ".yml"
   - patterns:
-      - "programs/**"
+      - "ug/programs/**"
     allow_extensions:
       - ".yaml"
   - patterns:
