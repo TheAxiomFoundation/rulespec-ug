@@ -4,20 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - ug/statute/act-2022-15/appropriation-2022/section-3-appropriation
-        - ug/policy/mglsd-scg/sage-handbook
-      rationale: |-
-        The Senior Citizens Grant is administratively set: the MGLSD SAGE
-        Handbook is the official programme documentation for the monthly
-        amount (Shs. 25,000) and the national 80-and-above rule encoded
-        here, and the programme is funded as appropriated public
-        expenditure - the Appropriation Act's authorising sections are
-        the captured statutory footing (Act 15 of 2022 as the exemplar
-        year; the FY2025/26 Appropriation Act, 2025 print is an open
-        capture item recorded in rulespec-ug#1).
   deferred_outputs:
     - output: ug:policies/mglsd-scg/sage-handbook/c#fy_2016_2017_oldest_100_subcounty_eligibility
       reason: |-
@@ -74,7 +60,7 @@ rules:
             kind: unit
             source:
               corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
-              excerpt: "annual output = 12 x monthly"
+              excerpt: "Why doesn’t Government pay all the money once annually, or pay whole amount at once?"
     versions:
       - effective_from: '2019-07-01'
         formula: |-

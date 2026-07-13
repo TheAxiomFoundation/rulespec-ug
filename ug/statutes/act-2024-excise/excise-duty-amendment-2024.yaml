@@ -24,7 +24,7 @@ rules:
             kind: effective_period
             source:
               corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
-              excerpt: "come into force on 1st July, 2024"
+              excerpt: 'come into force on 1" July, 2024'
     versions:
       - effective_from: '2024-07-01'
         formula: |-
@@ -42,12 +42,12 @@ rules:
             kind: amount
             source:
               corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
-              excerpt: "Gas oil (automotive, light, amber for high speed engines) Shs 1230 per litre"
+              excerpt: "Gas oil (automotive, light, amber for high speed engines) Shs 1230 litre;"
           - path: versions[0].effective_from
             kind: effective_period
             source:
               corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
-              excerpt: "come into force on 1st July, 2024"
+              excerpt: 'come into force on 1" July, 2024'
     versions:
       - effective_from: '2024-07-01'
         formula: |-
@@ -72,7 +72,7 @@ rules:
             kind: effective_period
             source:
               corpus_citation_path: ug/statute/act-2024-excise/excise-duty-amendment-2024
-              excerpt: "come into force on 1st July, 2024"
+              excerpt: 'come into force on 1" July, 2024'
     versions:
       - effective_from: '2024-07-01'
         formula: |-

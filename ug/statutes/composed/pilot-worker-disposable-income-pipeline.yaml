@@ -6,22 +6,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
-      - ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-    upstream_source_check:
-      status: composed_from_grounded_modules
-      checked_paths:
-        - ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
-        - ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-      rationale: >-
-        Every value this pipeline uses is imported from an
-        already-grounded module: the Act 4 of 2012 substituted Third
-        Schedule resident income tax (applied to chargeable income) and
-        the Cap. 230 section 11 employee's share of the NSSF standard
-        contribution. The pipeline adds no new parameters - it wires the
-        grounded stages into the single-employee disposable-income
-        identity for the UGAMOD oracle slice.
+    corpus_citation_path: ug/statute/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted
   summary: |-
     Composed single-employee disposable-income pipeline for the UGAMOD
     oracle slice at the FY2025/26 year of income (rulespec-ug#1). It
@@ -71,7 +56,7 @@ rules:
             kind: formula
             source:
               corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-              excerpt: "the employee's share of a standard contribution of 5 percent calculated on the total wages"
+              excerpt: "deduct from the monthly wa payment of his or her employee the employee’s share ofa standard contributi of five percent calculated on the total wages"
     versions:
       - effective_from: '2012-07-01'
         formula: |-

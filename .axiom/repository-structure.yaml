@@ -4,12 +4,14 @@ allowed_root_directories:
   - .github
   - bulk
   - data
-  - programs
+  - ug/programs
+  - docs
   - tests
   - ug
 allowed_root_files:
   - .gitignore
   - CLAUDE.md
+  - ENCODING-GAPS.md
   - README.md
   - known-missing-money-atoms.yaml
   - known-validation-gaps.yaml
@@ -43,9 +45,13 @@ path_rules:
       - ".yaml"
       - ".yml"
   - patterns:
-      - "programs/**"
+      - "ug/programs/**"
     allow_extensions:
       - ".yaml"
+  - patterns:
+      - "docs/**"
+    allow_extensions:
+      - ".md"
   - patterns:
       - "tests/**"
     allow_extensions:
