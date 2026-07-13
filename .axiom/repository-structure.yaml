@@ -5,6 +5,7 @@ allowed_root_directories:
   - bulk
   - data
   - ug/programs
+  - docs
   - tests
   - ug
 allowed_root_files:
