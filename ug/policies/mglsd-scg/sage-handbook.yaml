@@ -60,7 +60,7 @@ rules:
             kind: unit
             source:
               corpus_citation_path: ug/policy/mglsd-scg/sage-handbook
-              excerpt: "annual output = 12 x monthly"
+              excerpt: "Why doesn’t Government pay all the money once annually, or pay whole amount at once?"
     versions:
       - effective_from: '2019-07-01'
         formula: |-
