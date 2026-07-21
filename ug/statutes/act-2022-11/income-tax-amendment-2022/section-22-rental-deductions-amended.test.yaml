@@ -1,0 +1,42 @@
+- name: deduction_is_capped_when_expenditure_exceeds_half_of_rental_income
+  period:
+    period_kind: tax_year
+    start: '2022-07-01'
+    end: '2023-06-30'
+  input:
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income_person_is_other_than_individual_or_partnership
+    : true
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income_production_expenditure_and_losses
+    : 700
+    ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income: 1000
+  output:
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#rental_expenditure_and_loss_deduction
+    : 500
+- name: deduction_equals_expenditure_when_expenditure_does_not_exceed_half_of_rental_income
+  period:
+    period_kind: tax_year
+    start: '2022-07-01'
+    end: '2023-06-30'
+  input:
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income_person_is_other_than_individual_or_partnership
+    : true
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income_production_expenditure_and_losses
+    : 400
+    ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income: 1000
+  output:
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#rental_expenditure_and_loss_deduction
+    : 400
+- name: deduction_is_not_allowed_for_an_individual_or_partnership
+  period:
+    period_kind: tax_year
+    start: '2022-07-01'
+    end: '2023-06-30'
+  input:
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income_person_is_other_than_individual_or_partnership
+    : false
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income_production_expenditure_and_losses
+    : 700
+    ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#input.rental_income: 1000
+  output:
+    ? ug:statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended#rental_expenditure_and_loss_deduction
+    : 0

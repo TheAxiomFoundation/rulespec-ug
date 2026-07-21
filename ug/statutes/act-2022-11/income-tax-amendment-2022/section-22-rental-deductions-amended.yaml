@@ -1,0 +1,52 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended
+    source_sha256: 1f8a4fcc5a9c26ecc23e413e5412ef887120a724ed6d1a845c5d1d9fa45a0af0
+  summary: “Where the expenditure and losses incurred by a person other than an individual
+    or partnership in the production of rental income exceeds fifty percent of the
+    rental income, the allowable deduction shall be fifty percent of the rental income
+    for that year of income.”
+rules:
+- name: maximum_rental_deduction_rate
+  kind: parameter
+  dtype: Rate
+  source: Income Tax (Amendment) Act, 2022, s. 5, inserting Income Tax Act s. 22(1a)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: parameter
+        source:
+          corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended
+          excerpt: fifty percent of the rental income
+  versions:
+  - effective_from: '2022-07-01'
+    formula: '0.50'
+- name: rental_expenditure_and_loss_deduction
+  kind: derived
+  entity: Business
+  dtype: Money
+  period: Year
+  source: Income Tax (Amendment) Act, 2022, s. 5, inserting Income Tax Act s. 22(1)(c)
+    and (1a)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: condition
+        source:
+          corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended
+          excerpt: a person other than an individual or partnership
+      - path: versions[0].formula
+        kind: formula
+        source:
+          corpus_citation_path: ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended
+          excerpt: the allowable deduction shall be fifty percent of the rental income
+  versions:
+  - effective_from: '2022-07-01'
+    formula: "if rental_income_person_is_other_than_individual_or_partnership:\n \
+      \ min(rental_income_production_expenditure_and_losses, maximum_rental_deduction_rate\
+      \ * rental_income)\nelse: 0"
