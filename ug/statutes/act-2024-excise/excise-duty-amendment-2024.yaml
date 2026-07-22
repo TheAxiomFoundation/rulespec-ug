@@ -59,7 +59,7 @@ rules:
     dtype: Money
     period: Year
     unit: UGX
-    source: Excise Duty (Amendment) Act, 2024, section 3(h), Schedule 2 item 8
+    source: Excise Duty (Amendment) Act, 2024, section 3(h), Schedule 2 items 8(a) and (b)
     metadata:
       proof:
         atoms:
