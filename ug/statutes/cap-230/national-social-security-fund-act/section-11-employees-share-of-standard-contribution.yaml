@@ -1,0 +1,117 @@
+format: rulespec/v1
+imports:
+  - ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+    source_sha256: 329fc90636aa6e1b4758327e76d9910a9d3ca0ebf7d1cfea20a0d44820d6e847
+  summary: |-
+    “A contributing employer may deduct from the monthly wage payment of his or her employee the employee’s share of a standard contribution of five percent calculated on the total wages paid during that month.” If provisional deductions differ from the employee’s share, the employer may deduct the shortfall from the last wage payment but “shall refund the amount in excess to the employee forthwith.”
+  deferred_outputs:
+    - output: ug:statutes/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution#inadvertent_late_recovery_authorized
+      reason: The provision requires installment-level facts, equality of installments, written employee agreement, and recovery timing relative to the original wage payments; this scheduling relation is not represented by the available scalar schema.
+      source_values:
+        - ug:statutes/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution#minimum_inadvertent_recovery_installments
+        - ug:statutes/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution#inadvertent_recovery_deadline_months
+rules:
+  - name: minimum_inadvertent_recovery_installments
+    kind: parameter
+    dtype: Count
+    source: National Social Security Fund Act, Cap. 230, s. 11(3)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: not less than four equal instalments
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          4
+
+  - name: inadvertent_recovery_deadline_months
+    kind: parameter
+    dtype: Count
+    source: National Social Security Fund Act, Cap. 230, s. 11(3)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: within six months of payment of wages
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          6
+
+  - name: employee_share_of_standard_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Month
+    source: National Social Security Fund Act, Cap. 230, s. 11(1)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: five percent calculated on the total wages paid during that month
+          - path: versions[0].formula
+            kind: import
+            import:
+              target: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+              output: nssf_employee_share
+              hash: sha256:38eea3b005643978b2254de519e22c4245960e1d9726237f6a5e997eeb8dfdc7
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          nssf_employee_share
+
+  - name: last_wage_payment_additional_deduction
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Month
+    source: National Social Security Fund Act, Cap. 230, s. 11(2)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: deduct from the last wage payment during that month the difference between the employee’s share and the total sum already deducted
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          max(0, employee_share_of_standard_contribution - total_provisionally_deducted_during_month)
+
+  - name: excess_deduction_refund
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: UGX
+    period: Month
+    source: National Social Security Fund Act, Cap. 230, s. 11(2)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
+              excerpt: if the total sum so deducted exceeds the employee’s share, the employer shall refund the amount in excess
+    versions:
+      - effective_from: '1985-12-01'
+        formula: |-
+          max(0, total_provisionally_deducted_during_month - employee_share_of_standard_contribution)

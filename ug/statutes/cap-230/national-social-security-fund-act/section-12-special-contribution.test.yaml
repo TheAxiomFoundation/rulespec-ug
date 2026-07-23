@@ -1,0 +1,46 @@
+- name: employee covered by ministerial order at age threshold
+  period: 2026-06
+  input:
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employee_is_non_resident: false
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employee_is_eligible: false
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employee_age: 55
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.ministerial_order_applies_section_to_employee
+    : true
+  output:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#employee_in_special_contribution_class
+    : holds
+- name: employee outside all specified classes
+  period: 2026-06
+  input:
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employee_is_non_resident: false
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employee_is_eligible: false
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employee_age: 54
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.ministerial_order_applies_section_to_employee
+    : false
+  output:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#employee_in_special_contribution_class
+    : not_holds
+- name: contributing employer pays ten percent after wage rounding
+  period: 2026-06
+  input:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.total_wages_payable_to_employees_in_special_contribution_class
+    : 1000.5
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employer_is_contributing_employer
+    : true
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.same_wages_are_subject_to_standard_contribution
+    : false
+  output:
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#rounded_special_contribution_wages: 1001
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#special_contribution_payable: 100.1
+- name: standard contribution on same wages blocks special contribution
+  period: 2026-06
+  input:
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.total_wages_payable_to_employees_in_special_contribution_class
+    : 1000.5
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.employer_is_contributing_employer
+    : true
+    ? ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#input.same_wages_are_subject_to_standard_contribution
+    : true
+  output:
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#rounded_special_contribution_wages: 1001
+    ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#special_contribution_payable: 0

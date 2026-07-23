@@ -1,0 +1,188 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+    source_sha256: 3598c60783ca8210004095e2d4481a61d8204f07709254bac4d5f3cfa41cd8c2
+  summary: "\u201CEvery contributing employer shall ... within fifteen days following\
+    \ the last day of the month for which wages are paid, [pay] a special contribution\
+    \ of ten percent of the total wages payable to such persons calculated from fifty\
+    \ cents or more to the nearest multiple of a shilling\u201D, but not on wages\
+    \ for which a standard contribution is payable. The covered classes include specified\
+    \ non-resident, age-fifty-five-or-above, and eligible employees."
+rules:
+- name: special_contribution_rate
+  kind: parameter
+  dtype: Rate
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: parameter
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: a special contribution of ten percent
+  versions:
+  - effective_from: '1985-12-01'
+    formula: '0.10'
+- name: special_contribution_payment_deadline_days
+  kind: parameter
+  dtype: Integer
+  unit: day
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: parameter
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: within fifteen days following the last day of the month
+  versions:
+  - effective_from: '1985-12-01'
+    formula: '15'
+- name: specified_employee_age_threshold
+  kind: parameter
+  dtype: Integer
+  unit: year
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)(b)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: parameter
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: an employee of or above the age of fifty-five years
+  versions:
+  - effective_from: '1985-12-01'
+    formula: '55'
+- name: wage_rounding_multiple
+  kind: parameter
+  dtype: Money
+  unit: UGX
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: unit
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: to the nearest multiple of a shilling
+  versions:
+  - effective_from: '1985-12-01'
+    formula: '1'
+- name: employee_in_special_contribution_class
+  kind: derived
+  entity: Person
+  dtype: Judgment
+  period: Month
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)(a)-(c)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: condition
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: non-resident employee who is not an eligible employee
+      - path: versions[0].formula
+        kind: condition
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: an employee of or above the age of fifty-five years in respec
+            of whom the Minister has specifically applied this section
+      - path: versions[0].formula
+        kind: condition
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: an eligible employee
+      - path: versions[0].formula
+        kind: import
+        import:
+          target: ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#specified_employee_age_threshold
+          output: specified_employee_age_threshold
+          hash: sha256:local
+  versions:
+  - effective_from: '1985-12-01'
+    formula: '(employee_is_non_resident and not employee_is_eligible)
+
+      or (employee_age >= specified_employee_age_threshold and ministerial_order_applies_section_to_employee)
+
+      or employee_is_eligible'
+- name: rounded_special_contribution_wages
+  kind: derived
+  entity: Employer
+  dtype: Money
+  period: Month
+  unit: UGX
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: formula
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: total wages payable to such persons calculated from fifly cents
+            or more to the nearest multiple of a shilling
+      - path: versions[0].formula
+        kind: import
+        import:
+          target: ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#wage_rounding_multiple
+          output: wage_rounding_multiple
+          hash: sha256:local
+  versions:
+  - effective_from: '1985-12-01'
+    formula: "floor(\n  (max(0, total_wages_payable_to_employees_in_special_contribution_class)\
+      \ + wage_rounding_multiple / 2)\n  / wage_rounding_multiple\n) * wage_rounding_multiple"
+- name: special_contribution_payable
+  kind: derived
+  entity: Employer
+  dtype: Money
+  period: Month
+  unit: UGX
+  source: National Social Security Fund Act, Cap. 230, s. 12(1)
+  metadata:
+    proof:
+      atoms:
+      - path: versions[0].formula
+        kind: condition
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: every contributing employer shall, for each month during which
+            he or she employs a person of the following class or description, whether
+            that person is a member of the Fund or not
+      - path: versions[0].formula
+        kind: formula
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: pay into the reserve account in such manner as may be prescribed
+            by the Minister, within fifteen days following the last day of the month
+            for which wages are paid, a special contribution of ten percent of the
+            total wages payable to such persons
+      - path: versions[0].formula
+        kind: exception
+        source:
+          corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
+          excerpt: which contribution shall not be payable on the same wages as standard
+            contribution
+      - path: versions[0].formula
+        kind: import
+        import:
+          target: ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#special_contribution_rate
+          output: special_contribution_rate
+          hash: sha256:local
+      - path: versions[0].formula
+        kind: import
+        import:
+          target: ug:statutes/cap-230/national-social-security-fund-act/section-12-special-contribution#rounded_special_contribution_wages
+          output: rounded_special_contribution_wages
+          hash: sha256:local
+  versions:
+  - effective_from: '1985-12-01'
+    formula: 'if employer_is_contributing_employer and not same_wages_are_subject_to_standard_contribution:
+      special_contribution_rate * rounded_special_contribution_wages else: 0'
