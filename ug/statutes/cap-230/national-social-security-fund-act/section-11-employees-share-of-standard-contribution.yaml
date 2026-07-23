@@ -1,6 +1,6 @@
 format: rulespec/v1
 imports:
-  - ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#employee_share_rate
+  - ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
 module:
   proof_validation:
     required: true
@@ -65,10 +65,16 @@ rules:
             source:
               corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
               excerpt: five percent calculated on the total wages paid during that month
+          - path: versions[0].formula
+            kind: import
+            import:
+              target: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
+              output: nssf_employee_share
+              hash: sha256:local
     versions:
       - effective_from: '1985-12-01'
         formula: |-
-          employee_share_rate * total_wages_paid_during_month
+          nssf_employee_share
 
   - name: last_wage_payment_additional_deduction
     kind: derived
