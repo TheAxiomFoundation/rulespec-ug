@@ -70,7 +70,7 @@ rules:
             import:
               target: ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share
               output: nssf_employee_share
-              hash: sha256:local
+              hash: sha256:38eea3b005643978b2254de519e22c4245960e1d9726237f6a5e997eeb8dfdc7
     versions:
       - effective_from: '1985-12-01'
         formula: |-
