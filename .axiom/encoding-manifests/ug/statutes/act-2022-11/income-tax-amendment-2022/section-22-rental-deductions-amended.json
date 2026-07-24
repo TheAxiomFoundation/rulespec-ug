@@ -1,0 +1,95 @@
+{
+  "applied_files": [
+    {
+      "path": "ug/statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended.yaml",
+      "sha256": "ba863b585e9919f7c427d0d65733741c5144fadb78568315d0420dcb2ceff25f"
+    },
+    {
+      "path": "ug/statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended.test.yaml",
+      "sha256": "d5d25fa689ce31dbcbfa18529434aa221122b4ebe7e44e26df7032e361912681"
+    }
+  ],
+  "axiom_encode_git": {
+    "commit": "aff8d708a76e17957c1d237d2ad86cbff7620c76",
+    "dirty_tracked": false,
+    "identity_source": "trusted-runtime-attestation",
+    "root": "/opt/axiom-verification/python/runtime-attestation.json",
+    "version": "0.2.1302",
+    "version_commit": "aff8d708a76e17957c1d237d2ad86cbff7620c76"
+  },
+  "axiom_encode_version": "0.2.1302",
+  "backend": "openai",
+  "citation": "ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended",
+  "context_manifest_file": "/tmp/axiom-encode-encodings/_eval_workspaces/openai-gpt-5.6-terra/ug-statute-act-2022-11-income-tax-amendment-2022-section-22-rental-deductions-amended/workspace/context-manifest.json",
+  "context_manifest_sha256": "309c99a2141afbbeb7385a1fe083eb8a5114cca9d1a9b40b69eb9514b3a6ee82",
+  "generated_at": "2026-07-21T16:36:35.418499+00:00",
+  "generated_output_file": "/tmp/axiom-encode-encodings/openai-gpt-5.6-terra/statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended.yaml",
+  "generated_output_root": "/tmp/axiom-encode-encodings",
+  "generated_output_sha256": "ba863b585e9919f7c427d0d65733741c5144fadb78568315d0420dcb2ceff25f",
+  "generation_prompt_sha256": "8e191a88184cc0972af6b269f8a2463160c856da8388196871e0051973202270",
+  "model": "gpt-5.6-terra",
+  "run_id": "506e0f4b",
+  "runner": "openai-gpt-5.6-terra",
+  "schema_version": "axiom-encode/applied-rulespec/v5",
+  "signature": {
+    "algorithm": "ed25519-domain-v1",
+    "key_id": "sha256:24a78725a23b1c83cfc38bdc22f75401d8008e7a8477796b55179d1fc79c4d9a",
+    "value": "dcBFnC/pqJ/LpT0HjsM3dSnE2pVuahpa6WCeY4JrokLFdxyZLeu0Xk5VukZS24wban8b2S2bYlVkn7LAEvxeDQ=="
+  },
+  "source_attestation": {
+    "component_rows": [],
+    "corpus_release": "ug-rulespec-2026-07-12",
+    "corpus_release_content_sha256": "23c7e02981e97196e1c7284894290f4967bbeaadb0e6e68105e26bbd184e6f9c",
+    "corpus_release_selector_sha256": "51d38b3103b3479fb88f04de366049ed25d07b95db6c7a5ebdb7ca9b8127a04e",
+    "corpus_source": "local",
+    "expression_date": "2022-07-01",
+    "generation_input_sha256": "1f8a4fcc5a9c26ecc23e413e5412ef887120a724ed6d1a845c5d1d9fa45a0af0",
+    "provision_file": "data/corpus/provisions/ug/statute/2026-07-08-ug-rental-and-presumptive.jsonl",
+    "provision_file_sha256": "9e061ec1b367892658a7e234e65a3bed0042c912e14ed0f45b89cab91ecc7d1a",
+    "requested_corpus_citation_path": "ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended",
+    "resolved_corpus_citation_path": "ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended",
+    "resolved_text_sha256": "1f8a4fcc5a9c26ecc23e413e5412ef887120a724ed6d1a845c5d1d9fa45a0af0",
+    "row": {
+      "body_sha256": "1f8a4fcc5a9c26ecc23e413e5412ef887120a724ed6d1a845c5d1d9fa45a0af0",
+      "citation_path": "ug/statute/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended",
+      "document_class": "statute",
+      "expression_date": "2022-07-01",
+      "jurisdiction": "ug",
+      "line_number": 2,
+      "provision_file": "data/corpus/provisions/ug/statute/2026-07-08-ug-rental-and-presumptive.jsonl",
+      "provision_file_sha256": "9e061ec1b367892658a7e234e65a3bed0042c912e14ed0f45b89cab91ecc7d1a",
+      "record_id": "27cb9835-18dc-5907-8480-5e4ca94dec92",
+      "source_as_of": "2026-07-08",
+      "source_path": "sources/ug/statute/2026-07-08-ug-rental-and-presumptive/official-documents/ug-act-2022-11-income-tax-amendment.pdf",
+      "version": "2026-07-08-ug-rental-and-presumptive"
+    },
+    "rulespec_root": "rulespec-ug/ug",
+    "source_as_of": "2026-07-08",
+    "source_sha256": "1f8a4fcc5a9c26ecc23e413e5412ef887120a724ed6d1a845c5d1d9fa45a0af0"
+  },
+  "tool": "axiom-encode encode --apply",
+  "trace_file": "/tmp/axiom-encode-encodings/traces/openai-gpt-5.6-terra/ug-statute-act-2022-11-income-tax-amendment-2022-section-22-rental-deductions-amended.json",
+  "trace_sha256": "4718c4122f8d7b90430ae45689be8caa24b1c05004ee2fb2a2ef9dd034d550ba",
+  "validation_execution": {
+    "axiom_encode": {
+      "commit": "aff8d708a76e17957c1d237d2ad86cbff7620c76",
+      "identity_source": "trusted-runtime-attestation",
+      "repository": "github.com/TheAxiomFoundation/axiom-encode",
+      "version": "0.2.1302"
+    },
+    "axiom_rules_engine": {
+      "commit": "05eac9d2f89dabe5c6673176260762cef3a58f47",
+      "repository": "github.com/TheAxiomFoundation/axiom-rules-engine"
+    },
+    "policy_pre_apply": {
+      "pre_apply_content_sha256": "f82232b071883f76d38fe2dcfff447742e991e7c02b7b1dec659f0fbabc2ab76",
+      "pre_apply_file_count": 22,
+      "rulespec_root": "rulespec-ug/ug",
+      "toolchain_contract_sha256": "dec994608e917bc9f99d117855f6c01704e857a0fad825003302e216523bc9c5",
+      "validation_waiver_set_sha256": "aede69a7977117d65b9b972aa569fe1bc5216740e62272dd44d5e97fe57ecd1f"
+    },
+    "rulespec_dependencies": [],
+    "schema": "axiom-encode/apply-validation-execution/v1"
+  },
+  "validation_waiver_set_sha256": "aede69a7977117d65b9b972aa569fe1bc5216740e62272dd44d5e97fe57ecd1f"
+}
