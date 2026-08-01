@@ -39,7 +39,7 @@ Every policy-bearing monetary value — currency parameters, currency parameter-
 
 ## Listing gates (app visibility)
 
-This lane is marked `app_visibility = "experimental"` in `.axiom/registry.toml`, which keeps its encodings off the axiom-foundation.org app surfaces (encoded search, jurisdiction tiles, navigation encoding badges) while it matures; corpus provisions remain visible under release-scopes gating. Flip the marker to `"public"` in a one-line PR when all four gates hold:
+This lane is marked `app_visibility = "experimental"` in `.axiom/registry.toml`, which keeps its encodings off the axiom.org app surfaces (encoded search, jurisdiction tiles, navigation encoding badges) while it matures; corpus provisions remain visible under release-scopes gating. Flip the marker to `"public"` in a one-line PR when all four gates hold:
 
 1. **Composed end-to-end calculation** — a `programs/` compose spec chains the modules so the flagship calculation (gross income to individual income-tax liability, and onward to disposable income) runs as one program. Status: **open**.
 2. **Independent numerical validation** — UGAMOD (SOUTHMOD Uganda) per-case parity, or independently published worked figures (URA PAYE tables) reproduced exactly as companion fixtures citing their sources. Status: **open**.
