@@ -56,7 +56,7 @@ rules:
             kind: formula
             source:
               corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-              excerpt: "deduct from the monthly wa payment of his or her employee the employee’s share ofa standard contributi of five percent calculated on the total wages"
+              excerpt: "deduct from the monthly wage payment of his or her employee the employee’s share of a standard contribution of five percent calculated on the total wages"
     versions:
       - effective_from: '2012-07-01'
         formula: |-

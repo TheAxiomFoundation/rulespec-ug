@@ -5,7 +5,7 @@ module:
   source_verification:
     corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act
   summary: |-
-    Section 10 requires every contributing employer, for each month wages are paid to an eligible employee, to pay "a standard contribution of fifteen percent calculated on the total wages paid during that month to that employce." The copied continuation identifies section 11 as the employee-share rule for "the employee's share of a standard contribution of 5 percent calculated on the total wages."
+    Section 10 requires every contributing employer, for each month wages are paid to an eligible employee, to pay "a standard contribution of fifteen percent calculated on the total wages paid during that month to that employee." The copied continuation identifies section 11 as the employee-share rule for "the employee’s share of a standard contribution of five percent calculated on the total wages."
 rules:
   - name: standard_contribution_rate
     kind: parameter
@@ -97,7 +97,7 @@ rules:
             kind: formula
             source:
               corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-              excerpt: "employee’s share ofa standard contributi of five percent calculated on the total wages"
+              excerpt: "employee’s share of a standard contribution of five percent calculated on the total wages"
           - path: versions[0].formula
             kind: parameter
             source:
@@ -127,7 +127,7 @@ rules:
             kind: formula
             source:
               corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-              excerpt: "employee’s share ofa standard contributi of five percent calculated on the total wages"
+              excerpt: "employee’s share of a standard contribution of five percent calculated on the total wages"
     versions:
       - effective_from: '1985-12-01'
         formula: |-
