@@ -1,38 +1,191 @@
 {
-  "generated_at": "2026-07-08",
+  "generated_at": "2026-10-04",
   "jurisdiction": "ug",
-  "focus": "Uganda tax-benefit surface: national income tax (PAYE), rental income tax, presumptive small-business tax, NSSF contributions, Local Service Tax, VAT, excise duties, and the Senior Citizens Grant.",
+  "focus": "Uganda tax-benefit surface: resident individual income tax (Third Schedule rates), rental income tax, the presumptive small-business tax, NSSF contributions, the Local Service Tax, VAT, fuel excise duty and the Senior Citizens Grant, plus a composed single-employee disposable income.",
   "purpose": "Household-level comparison-oracle and supporting-source references for Uganda Axiom coverage. None of these are legal authority.",
   "oracle_scope": "A RuleSpec oracle must be an executable, pinned external calculator that accepts household-level inputs and returns household-level tax-benefit outputs comparable to Axiom outputs. Aggregate simulators, distributional reports, parameter documentation, and public model summaries are supporting references only, not oracles.",
   "oracles": [
     {
       "id": "ugamod",
       "name": "UGAMOD",
-      "url": "https://www.wider.unu.edu/project/ugamod-tax-benefit-microsimulation-model-uganda",
+      "url": "https://www.wider.unu.edu/about/ugamod-%E2%80%93-simulating-tax-and-benefit-policies-development-uganda",
       "local_path": "~/.axiom/oracles/southmod/bundle/SOUTHMOD_A4.0 (licensed, non-redistributable; never committed)",
       "commit": null,
       "model": "SOUTHMOD_A4.0",
-      "dataset": "ug_2016_a11.txt, ug_2020_a1.txt, ug_2024_a1.txt (UNHS-based input microdata shipped in the bundle)",
-      "role": "Household-level tax-benefit comparison oracle for Uganda. UGAMOD is the SOUTHMOD tax-benefit microsimulation model for Uganda (UNU-WIDER, in collaboration with the Ministry of Finance, Planning and Economic Development). Built on the EUROMOD platform; systems UG_2016-UG_2025.",
+      "dataset": "ug_2024_a1 dataset configuration (Uganda Bureau of Statistics, Uganda National Household Survey 2023/24); the suites read only its variable list, and every comparison household is synthetic.",
+      "role": "Household-level tax-benefit comparison oracle for Uganda, wired through per-case suites in axiom-oracles (see wired). UGAMOD is the SOUTHMOD tax-benefit microsimulation model for Uganda (UNU-WIDER), built on the EUROMOD platform.",
       "coverage": [
         "personal_income_tax",
-        "paye",
         "rental_income_tax",
         "presumptive_tax",
         "social_security_contributions",
         "local_service_tax",
         "vat",
-        "excise_duties",
+        "fuel_excise_duty",
         "cash_transfers",
         "household_disposable_income"
       ],
-      "authority": "bundle_in_hand_wiring_pending",
+      "authority": "wired_per_case_parity",
       "availability_check": {
-        "checked_at": "2026-07-08",
-        "status": "bundle_in_hand_wiring_pending",
-        "detail": "The licensed SOUTHMOD A4.0 bundle held under the Adhesion Agreement for the Ghana lane also carries UGAMOD with systems UG_2016-UG_2025 and three bundled UNHS-based input datasets, so per-case and dataset-backed probes need no further data application (personal links; non-redistributable; the bundle and datasets must never be committed or shared). The EUROMOD-engine runtime is proven from the Ghana lane (x86_64 py3.12 venv + euromod 0.2.18 + x64 .NET 10). Oracle wiring (ug: prefix mapping, UG country scope, per-case parity suites against UG_2025 = FY2025/26) follows the Ghana recipe; until wired, ug: outputs remain classified not_comparable and parity tests stay deferred. The UG_2025 policy-surface inventory (23 policies, 9 active instruments) is recorded at ~/.axiom/oracles/southmod/harness-ug/ugamod/inventory_result.json."
+        "checked_at": "2026-10-04",
+        "status": "wired_per_case_parity",
+        "detail": "UNU-WIDER approved the SOUTHMOD access request on 2026-07-07, and the SOUTHMOD A4.0 bundle that approval covers includes UGAMOD, so no further application was needed. The bundle (sha256 in bundle_sha256) is held locally under the SOUTHMOD_A4.0 Adhesion Agreement (personal links; non-redistributable; never committed or shared). UGAMOD is wired as the Uganda household oracle by nine per-case comparison suites in TheAxiomFoundation/axiom-oracles (comparisons/ug-*.yaml, axiom-oracles#225, #231, #232, #237 and #238), run on system UG_2025 through scripts/run_comparison.py on the licensed machine. They are manual-lane suites (ci: manual): clause 4 of the agreement bars giving the bundle or its input data to any third party, so they never run on shared CI runners. On 2026-10-04, against rulespec-ug c0b6597 and axiom-rules-engine 6f62c12: 58 cases, 64 comparisons, 64 matched and 0 dispositioned (every comparison matches). No oracle-side findings are recorded: axiom-oracles has no UGAMOD issues ledger, and the suite descriptions record none. Open questions on the Axiom side are in the suite notes and rulespec-ug#21. The rulespec-ug modules these suites compare carry manual-attestation manifests, not supervised-encoder manifests (rulespec-ug#21), so the comparisons should be re-run after any supervised re-encode."
       },
-      "bundle_sha256": "741855bd23cf4c4a0a61a80def06a078fd3f0551a452b5853a2e46c7e2486a5f"
+      "bundle_sha256": "741855bd23cf4c4a0a61a80def06a078fd3f0551a452b5853a2e46c7e2486a5f",
+      "systems": "UG_2025 (FY2025/26), for all nine suites (see wired)",
+      "acknowledgement": "Results are based on the tax-benefit microsimulation model for Uganda (UGAMOD) in SOUTHMOD_A4.0, developed, maintained and managed by UNU-WIDER with SASPRI, the LSE International Inequalities Institute and local partners, run on the EUROMOD software (EM_Executable 1.0.0 via the euromod connector 0.2.18) under the ug_2024_a1 dataset configuration (Uganda Bureau of Statistics, Uganda National Household Survey 2023/24); only the dataset's variable list is read and every household is synthetic. The results and their interpretation are Axiom's responsibility.",
+      "wired": {
+        "oracles_prs": [
+          "TheAxiomFoundation/axiom-oracles#225",
+          "TheAxiomFoundation/axiom-oracles#231",
+          "TheAxiomFoundation/axiom-oracles#232",
+          "TheAxiomFoundation/axiom-oracles#237",
+          "TheAxiomFoundation/axiom-oracles#238"
+        ],
+        "system": "UG_2025",
+        "dataset_configuration": "ug_2024_a1 (variable list only; every comparison household is synthetic)",
+        "last_run": {
+          "date": "2026-10-04",
+          "axiom_rules_engine": "6f62c12",
+          "rulespec_ug": "c0b6597"
+        },
+        "totals": {
+          "suites": 9,
+          "cases": 58,
+          "comparisons": 64,
+          "matched": 64,
+          "dispositioned": 0
+        },
+        "suites": [
+          {
+            "suite": "ug-dispy",
+            "cases": 10,
+            "comparisons": 10,
+            "matched": 10,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income"
+            ],
+            "ugamod_variables": [
+              "ils_dispy"
+            ],
+            "note": "Restricted test zone: the composed pipeline has no Local Service Tax stage (rulespec-ug#21 item 2), so the tax is left out on both sides and the match covers gross pay less income tax and the employee NSSF share only. Both imported Axiom inputs (chargeable income and total wages) are set to the gross pay the model uses, so the suite does not test how chargeable income is derived."
+          },
+          {
+            "suite": "ug-fuel-excise",
+            "cases": 2,
+            "comparisons": 2,
+            "matched": 2,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/act-2024-excise/excise-duty-amendment-2024#fuel_excise_duty"
+            ],
+            "ugamod_variables": [
+              "tex10_s"
+            ],
+            "note": "Vintage check, not FY2025/26 validation: rulespec-ug encodes only the 2024 Schedule 2 item 8 rows and the FY2025/26 amendment print is not captured (open item 1 of rulespec-ug#1), so the match shows that UG_2025 and the module price the same 2024 rows, not that those rows are the FY2025/26 law."
+          },
+          {
+            "suite": "ug-lst",
+            "cases": 12,
+            "comparisons": 12,
+            "matched": 12,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/act-2008-8/local-governments-amendment-no2-2008#local_service_tax"
+            ],
+            "ugamod_variables": [
+              "tgv_s"
+            ],
+            "note": "Both sides get the same gross monthly pay, so the suite tests the band table on a gross base only. Whether the statute's 'monthly take-home salary' means gross or net pay is an open question that the suite does not decide (rulespec-ug#21 item 2)."
+          },
+          {
+            "suite": "ug-nssf-contributions",
+            "cases": 6,
+            "comparisons": 12,
+            "matched": 12,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employee_share",
+              "ug:statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers#nssf_employer_net_share"
+            ],
+            "ugamod_variables": [
+              "tscee_s",
+              "tscer_s"
+            ],
+            "note": "Axiom's total wages are set to the gross pay the model uses, and the s.10 module has no age input. The matches at ages 60 and 70 do not settle whether Cap. 230 limits contributions by age, which needs the Act's eligible-employee definition (rulespec-ug#21 item 1)."
+          },
+          {
+            "suite": "ug-paye-rate-schedule",
+            "cases": 10,
+            "comparisons": 10,
+            "matched": 10,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted#resident_individual_income_tax"
+            ],
+            "ugamod_variables": [
+              "tin_s"
+            ],
+            "note": "Bridged input: Axiom's chargeable income is set to the gross employment income the model uses for each case, so the suite tests the Third Schedule rates on an identical base, not the derivation of chargeable income."
+          },
+          {
+            "suite": "ug-presumptive",
+            "cases": 10,
+            "comparisons": 10,
+            "matched": 10,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/act-2020-20/income-tax-amendment-2020#presumptive_small_business_income_tax_before_credits"
+            ],
+            "ugamod_variables": [
+              "ttn_s"
+            ],
+            "note": "The case above the 150m regime ceiling returns 0 on both sides: a shared zero that shows agreement, not that either side applies the ceiling."
+          },
+          {
+            "suite": "ug-rental",
+            "cases": 4,
+            "comparisons": 4,
+            "matched": 4,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted#individual_rental_income_tax"
+            ],
+            "ugamod_variables": [
+              "tpr_s"
+            ]
+          },
+          {
+            "suite": "ug-scg",
+            "cases": 3,
+            "comparisons": 3,
+            "matched": 3,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:policies/mglsd-scg/sage-handbook#senior_citizens_grant_per_year"
+            ],
+            "ugamod_variables": [
+              "boa_s"
+            ],
+            "note": "Tests the national age-80 rule only, at ages 79, 80 and 85. The handbook's national-ID and no-other-government-pension conditions and the earlier pilot and district rollouts are not encoded, so none of them is compared."
+          },
+          {
+            "suite": "ug-vat",
+            "cases": 1,
+            "comparisons": 1,
+            "matched": 1,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "ug:regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006#vat_amount"
+            ],
+            "ugamod_variables": [
+              "tva_s"
+            ],
+            "note": "Bridged input: Axiom's taxable value is the model's own standard-rated VAT base for the case, so the one case tests the 18% rate only, not which spending is standard-rated or whether survey spending includes VAT."
+          }
+        ]
+      }
     }
   ]
 }

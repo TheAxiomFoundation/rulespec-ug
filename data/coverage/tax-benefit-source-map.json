@@ -1,16 +1,174 @@
 {
-  "generated_at": "2026-07-08",
+  "generated_at": "2026-10-04",
   "jurisdiction": "ug",
   "validation_year": "FY2025/26",
-  "note": "UGAMOD UG_2025 active-instrument map to governing Uganda law. Instrument keys are the model's EUROMOD-convention policy names (structure metadata only; no licensed content). Source URLs are hunting grounds, not captured provenance - capture happens in axiom-corpus manifests.",
-  "instruments": [
-    {"instrument": "tin_ug (PAYE income tax)", "outputs": ["tin_s", "ttb_s"], "governing_law": "Income Tax Act (Cap 340), Third Schedule Part I (resident individual rates); s.19-22 employment income; annual amendment acts", "status": "not_captured"},
-    {"instrument": "tpr_ug (rental income tax)", "outputs": ["tpr_s"], "governing_law": "Income Tax Act (Cap 340) rental income regime (s.5(3), s.22(1)(c) as amended; 2021-2024 amendment acts changed rate and deduction structure)", "status": "not_captured"},
-    {"instrument": "ttn_ug (presumptive tax)", "outputs": ["ttn_s", "ttntb_s"], "governing_law": "Income Tax Act (Cap 340), s.4(5) + Second Schedule small-business taxpayer rates as amended", "status": "not_captured"},
-    {"instrument": "tscee_ug / tscer_ug (NSSF contributions)", "outputs": ["tscee_s", "tscer_s"], "governing_law": "National Social Security Fund Act (Cap 230), ss.11-12 (5% employee / 10% employer standard contributions); NSSF (Amendment) Act 2022", "status": "not_captured"},
-    {"instrument": "tgv_ug (Local Service Tax)", "outputs": ["tgv_s"], "governing_law": "Local Governments Act (Cap 243), Fifth Schedule Part(s) as amended by the Local Governments (Amendment) Act 2008 - graduated LST bands by income class", "status": "not_captured"},
-    {"instrument": "tva_ug (VAT)", "outputs": ["tva_s"], "governing_law": "Value Added Tax Act (Cap 349), s.24 standard rate (18%) + schedules for exempt/zero-rated supplies", "status": "not_captured"},
-    {"instrument": "tex_ug / tex01_ug (excise duties)", "outputs": ["tex01_s", "tex02_s"], "governing_law": "Excise Duty Act 2014, Schedule 2 as amended annually (per-litre and ad-valorem rows)", "status": "not_captured"},
-    {"instrument": "boa_ug (Senior Citizens Grant)", "outputs": ["boa_s"], "governing_law": "Administrative: Ministry of Gender, Labour and Social Development SAGE/SCG programme (Expanding Social Protection programme documentation)", "status": "not_captured"}
+  "focus": "Uganda tax-benefit surface: national income tax (PAYE rates and chargeable income), rental income tax, the presumptive small-business tax, NSSF contributions, the Local Service Tax, VAT, excise duties and the Senior Citizens Grant.",
+  "scope": "uganda_tax_benefit",
+  "jurisdiction_layers": {
+    "national": {
+      "namespace": "ug",
+      "description": "Uganda is a unitary state. All encoded statutes, regulations and programme policy surfaces live under the single national ug/ namespace; the Local Service Tax is levied by local governments under a national schedule and is encoded nationally."
+    }
+  },
+  "purpose": "Machine-readable intake map from Uganda tax-benefit tracks to governing law, RuleSpec modules and the comparison suites that check them. It cites law and points at modules; the modules hold the amounts.",
+  "source_priority": [
+    "Uganda Gazette assented Act prints (Parliament of Uganda) and Law Development Centre revised editions. ULII document pages are bot-gated; find prints through parliament.go.ug and gazettes.africa.",
+    "Uganda Revenue Authority (URA) rate tables and guides, only after the governing Act is identified.",
+    "Ministry of Gender, Labour and Social Development programme documentation, only after the governing Act is identified, or for rules set administratively (Senior Citizens Grant).",
+    "UGAMOD (SOUTHMOD A4.0) as a pinned household-level comparison reference for parity tests (data/oracles/oracle-index.json); supporting only, never legal authority."
+  ],
+  "current_blockers": [
+    {
+      "id": "encoding-debt",
+      "description": "The compared modules carry manual-attestation manifests, NSSF sections 11 and 12 have no apply manifest, the composed pipeline has no Local Service Tax stage, the Senior Citizens Grant annualization proof atom is weak, and module text names model content. Fixes go through the supervised encoder.",
+      "source": "https://github.com/TheAxiomFoundation/rulespec-ug/issues/21"
+    },
+    {
+      "id": "fy2025-26-amendment-capture",
+      "description": "The FY2025/26 amendment package is not captured in axiom-corpus, so FY2025/26 vintages of amended rows (the fuel excise rows in particular) are unconfirmed.",
+      "source": "axiom-oracles comparisons/ug-fuel-excise.yaml at ea2f3e21a; the captured-corpus list in rulespec-ug#21 item 2; open item 1 of rulespec-ug#1 (the issue is closed)"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "individual-income-tax-rates",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "Income Tax Act (Cap. 340), Third Schedule Part I (rates of tax for resident and non-resident individuals, including the additional rate on high chargeable income), as substituted by the Income Tax (Amendment) Act 2012 (Act 4 of 2012).",
+      "agency_surface": "URA PAYE and individual income-tax rate tables.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/act-2012-4/income-tax-amendment-2012/third-schedule-rates-of-tax-substituted.yaml"
+      ],
+      "oracle_suites": [
+        "ug-paye-rate-schedule"
+      ]
+    },
+    {
+      "id": "chargeable-employment-income",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "Income Tax Act (Cap. 340) provisions on employment income and the deductions that reduce it to chargeable income, including whether the Local Service Tax is deductible. Not yet captured in axiom-corpus.",
+      "agency_surface": "URA PAYE guides.",
+      "status": "planned",
+      "note": "Listing gate 1: lets the composed pipeline derive chargeable income instead of taking it as an input (rulespec-ug#21 item 2)."
+    },
+    {
+      "id": "rental-income-tax",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "Income Tax (Amendment) Act 2022: the substituted Third Schedule Part VI (rate of rental tax for individuals), and section 5, inserting Income Tax Act section 22(1)(c) and (1a) (rental expenditure and losses of persons other than individuals or partnerships).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted.yaml",
+        "ug/statutes/act-2022-11/income-tax-amendment-2022/section-22-rental-deductions-amended.yaml"
+      ],
+      "oracle_suites": [
+        "ug-rental"
+      ],
+      "note": "ug-rental compares the individual rental tax; the section 22 deduction module has no comparison."
+    },
+    {
+      "id": "presumptive-small-business-tax",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "Income Tax (Amendment) Act 2020 (Act 20 of 2020), section 9, substituting the Second Schedule (tax payable by small business taxpayers for the purposes of section 4(5)).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/act-2020-20/income-tax-amendment-2020.yaml"
+      ],
+      "oracle_suites": [
+        "ug-presumptive"
+      ],
+      "note": "The module defers the reduction of tax payable by credits; ug-presumptive compares tax before credits."
+    },
+    {
+      "id": "nssf-contributions",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "National Social Security Fund Act (Cap. 230): section 10 (standard contribution paid by employers), section 11 (employee's share of the standard contribution) and section 12 (special contribution).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers.yaml",
+        "ug/statutes/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution.yaml",
+        "ug/statutes/cap-230/national-social-security-fund-act/section-12-special-contribution.yaml"
+      ],
+      "oracle_suites": [
+        "ug-nssf-contributions"
+      ],
+      "note": "ug-nssf-contributions compares the section 10 module's employee and employer-net shares. Sections 11 and 12 have no comparison and no apply manifest, and the Act's eligible-employee definition is not captured (rulespec-ug#21 item 1)."
+    },
+    {
+      "id": "local-service-tax",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "Local Governments (Amendment) (No. 2) Act 2008 (Act 8 of 2008), amending the Local Governments Act: regulation 3, annual Local Service Tax rates for persons in gainful employment by monthly take-home salary.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/act-2008-8/local-governments-amendment-no2-2008.yaml"
+      ],
+      "oracle_suites": [
+        "ug-lst"
+      ],
+      "note": "The module encodes the salaried-employee table and defers the self-employed classes, the local government hotel tax and the poverty exemption. Whether the salary base is gross or net pay is open (rulespec-ug#21 item 2)."
+    },
+    {
+      "id": "value-added-tax",
+      "namespace": "ug",
+      "bucket": "regulations",
+      "primary_source": "Value Added Tax (Rate of Tax) Order 2006, paragraph 3 (standard rate on the taxable value as defined in sections 21 and 23 of the Value Added Tax Act, Cap. 349).",
+      "agency_surface": "URA VAT rate tables and guides.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/regulations/vat-rate-of-tax-order-2006/rate-of-tax-order-2006.yaml"
+      ],
+      "oracle_suites": [
+        "ug-vat"
+      ],
+      "note": "Exempt and zero-rated supplies are not encoded."
+    },
+    {
+      "id": "fuel-excise-duty",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "Excise Duty (Amendment) Act 2024, section 3(h), substituting Schedule 2 item 8 of the Excise Duty Act (motor spirit and gas oil).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/act-2024-excise/excise-duty-amendment-2024.yaml"
+      ],
+      "oracle_suites": [
+        "ug-fuel-excise"
+      ],
+      "note": "Only the fuel rows are encoded. The FY2025/26 amendment print is not yet captured, so the FY2025/26 vintage of these rows is unconfirmed (open item 1 of rulespec-ug#1)."
+    },
+    {
+      "id": "senior-citizens-grant",
+      "namespace": "ug",
+      "bucket": "policies",
+      "primary_source": "Ministry of Gender, Labour and Social Development, SAGE Handbook (Senior Citizens Grant): the monthly grant and the national age rule (sections 8.1 and 6.2).",
+      "agency_surface": "Ministry of Gender, Labour and Social Development.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/policies/mglsd-scg/sage-handbook.yaml"
+      ],
+      "oracle_suites": [
+        "ug-scg"
+      ],
+      "note": "Encodes the national age rule only; the national-ID and no-other-government-pension conditions are not encoded. The annualization parameter's proof atom does not state the value (rulespec-ug#21 item 3)."
+    },
+    {
+      "id": "worker-disposable-income",
+      "namespace": "ug",
+      "bucket": "statutes",
+      "primary_source": "No separate provision: a single-employee composition of the Third Schedule income tax and the Cap. 230 employee share.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "ug/statutes/composed/pilot-worker-disposable-income-pipeline.yaml"
+      ],
+      "oracle_suites": [
+        "ug-dispy"
+      ],
+      "note": "The FY2025/26 program spec ug/programs/income-tax/fy-2025-26.yaml composes it with the Third Schedule and NSSF section 10 modules. It has no Local Service Tax stage and does not declare module.kind: composition (rulespec-ug#21 item 2)."
+    }
   ]
 }

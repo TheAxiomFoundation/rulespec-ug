@@ -7,7 +7,7 @@ This repo stores Uganda RuleSpec source registry materials, oracle references, a
 - `ug/statutes/`: Uganda Acts of Parliament — the Income Tax Act (Cap 340) as amended, the VAT Act (Cap 349), the Excise Duty Act, the NSSF Act, the Local Governments Act, and other primary law needed for tax-benefit modeling.
 - `ug/regulations/`: statutory instruments made under the governing Acts.
 - `ug/policies/`: URA administrative guidance, PAYE rate surfaces, practice notes, and social-protection programme rules (Senior Citizens Grant) set administratively.
-- `programs/`: declarative compose specs (one per jurisdiction/program/period).
+- `ug/programs/`: declarative compose specs (one per jurisdiction/program/period).
 - `data/corpus/`: source inventory, ingestion notes, provision locators, and promoted official-source extracts.
 - `data/coverage/`: tax-benefit coverage backlog and source map.
 - `data/oracles/`: executable or documentary comparison references. These are never legal authority.
@@ -19,7 +19,7 @@ This repo stores Uganda RuleSpec source registry materials, oracle references, a
 - Add RuleSpec under `ug/statutes/`, `ug/regulations/`, or `ug/policies/` with companion `.test.yaml` files.
 - Keep source law provenance in corpus artifacts and cite those corpus paths from RuleSpec modules via `module.source_verification.corpus_citation_path`.
 - Use FY2025/26 (Uganda's tax year runs 1 July–30 June) as the validation year for encoded amounts; indexed/annual values must be corpus-grounded, never invented. UGAMOD system UG_2025 corresponds to FY2025/26.
-- Keep exact oracle versions in `data/oracles/oracle-index.json`. The UGAMOD bundle (SOUTHMOD A4.0) is licensed and non-redistributable — never commit bundle bytes, dataset rows, or model XML; only comparison statistics and UGAMOD-produced values may be recorded.
+- Keep exact oracle versions in `data/oracles/oracle-index.json`. UGAMOD is wired through axiom-oracles' manual-lane suites; the SOUTHMOD A4.0 bundle is licensed and non-redistributable. Record only UGAMOD output variable names used as comparison bindings, outputs observed on synthetic households, and comparison statistics. Never commit bundle files, dataset rows, microdata-derived statistics, or model content (parameter names or values, policy/function names, conditions, income-list compositions, DRD text). `tests/test_southmod_licence.py` fails CI on the syntactic forms of model content.
 - Sync `axiom-encode` and `.axiom/toolchain.toml` before substantial encoding runs.
 
 ## Do Not

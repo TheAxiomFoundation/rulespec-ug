@@ -88,7 +88,9 @@ def test_root_files_are_allowed() -> None:
     # a directory, so exclude it here just as IGNORED_DIRS excludes the
     # `.git` directory in normal clones.
     found = {
-        child.name for child in ROOT.iterdir() if child.is_file() and child.name != ".git"
+        child.name
+        for child in ROOT.iterdir()
+        if child.is_file() and child.name != ".git"
     }
     unexpected = found - ALLOWED_ROOT_FILES
     assert not unexpected, f"unexpected root files: {unexpected}"
@@ -107,16 +109,168 @@ def test_money_atom_ratchet_is_nonnegative_int() -> None:
     assert isinstance(allowed, int) and allowed >= 0
 
 
+ORACLE_INDEX = ROOT / "data/oracles/oracle-index.json"
+SOURCE_MAP = ROOT / "data/coverage/tax-benefit-source-map.json"
+# A EUROMOD system name: country code, underscore, policy year (UG_2025).
+SYSTEM_RE = re.compile(r"\b([A-Z]{2})_\d{4}\b")
+# An Axiom output id as the suites record it: ug:<module path>#<rule name>.
+OUTPUT_ID_RE = re.compile(
+    r"^ug:(?P<path>[a-z0-9][a-z0-9/_.-]*)#(?P<name>[a-z][a-z0-9_]*)$"
+)
+# The other SOUTHMOD countries with rulespec repositories, by system prefix,
+# with their model names and country names. None of them belongs in this
+# repository's oracle data.
+OTHER_SOUTHMOD_COUNTRIES = {
+    "GH": ("ghamod", "ghana"),
+    "ZM": ("microzamod", "zamod", "zambia"),
+    "RW": ("rwamod", "rwanda"),
+    "ET": ("etmod", "ethiopia"),
+}
+
+
+def load_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def ugamod_oracle() -> dict:
+    oracles = load_json(ORACLE_INDEX)["oracles"]
+    assert len(oracles) == 1, "expected exactly one oracle (UGAMOD)"
+    return oracles[0]
+
+
+def wired_suites() -> list[dict]:
+    return ugamod_oracle()["wired"]["suites"]
+
+
+def iter_strings(value: object, key: str = "") -> list[tuple[str, str]]:
+    """Return (key, string) for every string value in a JSON tree."""
+    if isinstance(value, str):
+        return [(key, value)]
+    if isinstance(value, dict):
+        return [pair for k, v in value.items() for pair in iter_strings(v, k)]
+    if isinstance(value, list):
+        return [pair for item in value for pair in iter_strings(item, key)]
+    return []
+
+
+def rule_names(module: Path) -> set[str]:
+    payload = yaml.safe_load(module.read_text(encoding="utf-8"))
+    return {rule["name"] for rule in payload.get("rules", [])}
+
+
+def encoded_modules() -> set[str]:
+    """Non-test RuleSpec YAML under ug/, leaving out the ug/programs/ compose specs."""
+    ug = ROOT / "ug"
+    return {
+        path.relative_to(ROOT).as_posix()
+        for path in ug.rglob("*.yaml")
+        if not path.name.endswith(".test.yaml")
+        and path.relative_to(ug).parts[0] != "programs"
+    }
+
+
 def test_oracle_index_is_ug_scoped() -> None:
-    payload = json.loads((ROOT / "data/oracles/oracle-index.json").read_text())
+    payload = load_json(ORACLE_INDEX)
     assert payload["jurisdiction"] == "ug"
+    oracle = ugamod_oracle()
+    assert (oracle["id"], oracle["name"]) == ("ugamod", "UGAMOD")
+    assert oracle["url"].startswith("https://www.wider.unu.edu/about/")
+    assert "ugamod" in oracle["url"].lower()
+    assert oracle["authority"] == "wired_per_case_parity"
+    assert oracle["availability_check"]["status"] == "wired_per_case_parity"
 
 
-def test_source_map_is_ug_scoped() -> None:
-    payload = json.loads(
-        (ROOT / "data/coverage/tax-benefit-source-map.json").read_text()
-    )
+def test_oracle_systems_dataset_and_suites_are_ugandan() -> None:
+    oracle = ugamod_oracle()
+    wired = oracle["wired"]
+    system_texts = [wired["system"], oracle["systems"]] + [
+        suite["system"] for suite in wired["suites"] if "system" in suite
+    ]
+    for text in system_texts:
+        prefixes = set(SYSTEM_RE.findall(text))
+        assert prefixes == {"UG"}, f"non-Uganda or missing system in {text!r}"
+    assert wired["dataset_configuration"].startswith("ug_")
+    names = [suite["suite"] for suite in wired["suites"]]
+    assert len(names) == len(set(names)), "duplicate suite names"
+    assert all(name.startswith("ug-") for name in names), names
+
+
+def test_wired_counts_are_consistent() -> None:
+    wired = ugamod_oracle()["wired"]
+    for suite in wired["suites"]:
+        name = suite["suite"]
+        assert suite["matched"] + suite["dispositioned"] == suite["comparisons"], name
+        assert len(suite["axiom_outputs"]) == len(suite["ugamod_variables"]), name
+    totals = wired["totals"]
+    assert totals["suites"] == len(wired["suites"])
+    for key in ("cases", "comparisons", "matched", "dispositioned"):
+        assert totals[key] == sum(suite[key] for suite in wired["suites"]), key
+
+
+def test_wired_axiom_outputs_resolve_to_module_rules() -> None:
+    for suite in wired_suites():
+        for output in suite["axiom_outputs"]:
+            match = OUTPUT_ID_RE.match(output)
+            assert match, f"{suite['suite']}: malformed output id {output}"
+            module = ROOT / "ug" / f"{match['path']}.yaml"
+            assert module.is_file(), f"{output}: no module ug/{match['path']}.yaml"
+            assert match["name"] in rule_names(module), (
+                f"{output}: ug/{match['path']}.yaml defines no rule {match['name']}"
+            )
+
+
+def test_oracle_data_records_no_local_paths() -> None:
+    # The single local_path field names where the licensed bundle sits; no
+    # other text may carry a machine path.
+    for path in (ORACLE_INDEX, SOURCE_MAP):
+        for key, text in iter_strings(load_json(path)):
+            if key == "local_path":
+                continue
+            assert "~/" not in text and "/Users/" not in text, (
+                f"{path.name}: local path in {key}"
+            )
+
+
+def test_source_map_tracks_resolve() -> None:
+    payload = load_json(SOURCE_MAP)
     assert payload["jurisdiction"] == "ug"
+    suites = {suite["suite"] for suite in wired_suites()}
+    ids = [track["id"] for track in payload["tracks"]]
+    assert len(ids) == len(set(ids)), "duplicate track ids"
+    for track in payload["tracks"]:
+        assert track["namespace"] == "ug", track["id"]
+        assert track["bucket"] in {"statutes", "regulations", "policies"}, track["id"]
+        assert track["status"] in {"encoded", "planned"}, track["id"]
+        modules = track.get("rulespec_modules", [])
+        assert (track["status"] == "encoded") == bool(modules), track["id"]
+        for module in modules:
+            assert (ROOT / module).is_file(), f"{track['id']}: missing {module}"
+        for suite in track.get("oracle_suites", []):
+            assert suite in suites, f"{track['id']}: unknown suite {suite}"
+
+
+def test_source_map_covers_every_encoded_module_and_suite() -> None:
+    tracks = load_json(SOURCE_MAP)["tracks"]
+    mapped = {
+        module for track in tracks for module in track.get("rulespec_modules", [])
+    }
+    unmapped = encoded_modules() - mapped
+    assert not unmapped, f"encoded modules with no source-map track: {sorted(unmapped)}"
+    compared = {suite for track in tracks for suite in track.get("oracle_suites", [])}
+    assert compared == {suite["suite"] for suite in wired_suites()}
+
+
+def test_oracle_data_names_no_other_southmod_country() -> None:
+    for path in (ORACLE_INDEX, SOURCE_MAP):
+        text = path.read_text(encoding="utf-8")
+        for code, names in OTHER_SOUTHMOD_COUNTRIES.items():
+            assert not re.search(rf"\b{code}_\d{{4}}\b", text), (
+                f"{path.name}: names a {code}_YYYY system"
+            )
+            for name in names:
+                assert not re.search(rf"\b{name}\b", text, re.IGNORECASE), (
+                    f"{path.name}: names {name}"
+                )
 
 
 def test_toolchain_pins_are_full_shas() -> None:
