@@ -4,7 +4,7 @@ module:
     required: true
   source_verification:
     corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
-    source_sha256: 3598c60783ca8210004095e2d4481a61d8204f07709254bac4d5f3cfa41cd8c2
+    source_sha256: 086014e1e0406423eb005614031d104963180e5cdabd5650eb8cfe29ef1549e8
   summary: "\u201CEvery contributing employer shall ... within fifteen days following\
     \ the last day of the month for which wages are paid, [pay] a special contribution\
     \ of ten percent of the total wages payable to such persons calculated from fifty\
@@ -93,7 +93,7 @@ rules:
         kind: condition
         source:
           corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
-          excerpt: an employee of or above the age of fifty-five years in respec
+          excerpt: an employee of or above the age of fifty-five years in respect
             of whom the Minister has specifically applied this section
       - path: versions[0].formula
         kind: condition
@@ -127,7 +127,7 @@ rules:
         kind: formula
         source:
           corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-12-special-contribution
-          excerpt: total wages payable to such persons calculated from fifly cents
+          excerpt: total wages payable to such persons calculated from fifty cents
             or more to the nearest multiple of a shilling
       - path: versions[0].formula
         kind: import
