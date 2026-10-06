@@ -1,0 +1,78 @@
+# Retired encoding-manifest claims
+#
+# Each entry retires ONE committed manifest claim — (manifest, attested_path,
+# attested_sha256), or one deletion marker — in place. The record it lives in
+# is kept rather than deleted: usually because it also carries the only true
+# attestation for another file it covers, sometimes because it sits where the
+# apply transaction does not delete. A retired claim is not live: it does not
+# count toward "one live record per file" and its staleness is not a finding.
+#
+# An entry is a reviewed exception, nothing more. It verifies nothing and
+# authorizes nothing; the pull request that adds it (or the apply transaction
+# that wrote it alongside a successor manifest) is where the retirement was
+# accepted. `axiom-encode manifest-audit` keeps an entry only while it is
+# still real: the claim must exist in the manifest with that exact digest; a
+# claim that is still true may be retired only if another live record attests
+# the file's current content; and a stale claim whose file has no matching
+# live attestation at all must say so with `unattested: true`. An entry that
+# stops meeting those conditions FAILS the audit and must be removed.
+# Re-encoding the rule is what removes `unattested` entries.
+#
+# See https://github.com/TheAxiomFoundation/axiom-encode/issues/1282
+
+schema_version: axiom-encode/retired-manifest-claims/v1
+retired_claims:
+  - manifest: ".axiom/encoding-manifests/ug/policies/mglsd-scg/sage-handbook.json"
+    attested_path: "ug/policies/mglsd-scg/sage-handbook.yaml"
+    attested_sha256: "5d32031433a296e03411808294c6fbc4445daa28f33fbd31b057016059de493f"
+    unattested: true
+    note: >-
+      Rule regenerated after the #1078 manifest relocation; this record also carries the
+      only attestation for a companion file it covers, so the claim is retired in place
+      rather than the record deleted.
+    issue: "https://github.com/TheAxiomFoundation/axiom-encode/issues/1282"
+  - manifest: ".axiom/encoding-manifests/ug/programs/ug/income-tax/fy-2025-26.json"
+    attested_path: "programs/ug/income-tax/fy-2025-26.yaml"
+    attested_sha256: "6c00a879649986386ea0c9313f6d5ed7262549940b6323390f1add0d56f1f55f"
+    unattested: true
+    note: >-
+      Content relocated (now at ug/programs/income-tax/fy-2025-26.yaml) by the reviewed
+      #1101 corpus-migration commit; the attested path holds nothing and no record
+      attests the new location yet.
+    issue: "https://github.com/TheAxiomFoundation/axiom-encode/issues/1282"
+  - manifest: ".axiom/encoding-manifests/ug/statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted.json"
+    attested_path: "ug/statutes/act-2022-11/income-tax-amendment-2022/third-schedule-rental-rate-part-substituted.yaml"
+    attested_sha256: "4db62a0758aff66307512f174da9d99e1290ce5b5aec578d367092003123d251"
+    unattested: true
+    note: >-
+      Rule regenerated after the #1078 manifest relocation; this record also carries the
+      only attestation for a companion file it covers, so the claim is retired in place
+      rather than the record deleted.
+    issue: "https://github.com/TheAxiomFoundation/axiom-encode/issues/1282"
+  - manifest: ".axiom/encoding-manifests/ug/statutes/act-2024-excise/excise-duty-amendment-2024.json"
+    attested_path: "ug/statutes/act-2024-excise/excise-duty-amendment-2024.yaml"
+    attested_sha256: "2ada8e717362abd74f58ca490ea9a1d26a444dbcae28f2e4bdc3491103263b39"
+    unattested: true
+    note: >-
+      Rule regenerated after the #1078 manifest relocation; this record also carries the
+      only attestation for a companion file it covers, so the claim is retired in place
+      rather than the record deleted.
+    issue: "https://github.com/TheAxiomFoundation/axiom-encode/issues/1282"
+  - manifest: ".axiom/encoding-manifests/ug/statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers.json"
+    attested_path: "ug/statutes/cap-230/national-social-security-fund-act/section-10-payment-of-standard-contribution-by-employers.yaml"
+    attested_sha256: "7ea90537a6b491fadeab11ae4d6caf23dff38841770efb72ac721e856e6aaad1"
+    unattested: true
+    note: >-
+      Rule regenerated after the #1078 manifest relocation; this record also carries the
+      only attestation for a companion file it covers, so the claim is retired in place
+      rather than the record deleted.
+    issue: "https://github.com/TheAxiomFoundation/axiom-encode/issues/1282"
+  - manifest: ".axiom/encoding-manifests/ug/statutes/composed/pilot-worker-disposable-income-pipeline.json"
+    attested_path: "ug/statutes/composed/pilot-worker-disposable-income-pipeline.yaml"
+    attested_sha256: "f70fb72a8f2c610bbde4ebf935283024eeacb1559365aeea87755a3adb161189"
+    unattested: true
+    note: >-
+      Rule regenerated after the #1078 manifest relocation; this record also carries the
+      only attestation for a companion file it covers, so the claim is retired in place
+      rather than the record deleted.
+    issue: "https://github.com/TheAxiomFoundation/axiom-encode/issues/1282"
