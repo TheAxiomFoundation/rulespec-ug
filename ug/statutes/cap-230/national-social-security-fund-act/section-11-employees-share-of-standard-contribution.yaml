@@ -6,7 +6,7 @@ module:
     required: true
   source_verification:
     corpus_citation_path: ug/statute/cap-230/national-social-security-fund-act/section-11-employees-share-of-standard-contribution
-    source_sha256: 329fc90636aa6e1b4758327e76d9910a9d3ca0ebf7d1cfea20a0d44820d6e847
+    source_sha256: e11cbc40a121d771147748af55c8c4465e9c680fb469c14384d9c836333ab7db
   summary: |-
     “A contributing employer may deduct from the monthly wage payment of his or her employee the employee’s share of a standard contribution of five percent calculated on the total wages paid during that month.” If provisional deductions differ from the employee’s share, the employer may deduct the shortfall from the last wage payment but “shall refund the amount in excess to the employee forthwith.”
   deferred_outputs:
