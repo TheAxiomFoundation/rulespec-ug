@@ -18,7 +18,8 @@ jobs:
       validate-roots: auto
       # The guard is on and stays on. It rejects a changed module unless its encoder
       # manifest matches the validator's encoder (axiom-encode-ref above). Signed
-      # re-encodes (axiom-encode's targeted-signed-reencode workflow) generate with a newer encoder, so its PRs are rejected until the validator moves
+      # re-encodes (axiom-encode's targeted-signed-reencode workflow) generate with a
+      # newer encoder, so their PRs are rejected until the validator moves
       # to that encoder together with re-encodes of the modules that fail at it
       # (TheAxiomFoundation/rulespec-ug#23). Do not set this to false to get a PR through.
       run-generated-guard: true
