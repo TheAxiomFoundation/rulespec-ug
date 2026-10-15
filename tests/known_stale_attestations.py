@@ -19,13 +19,15 @@ the manifest still attests the earlier ones.
 KNOWN_UNMANIFESTED_MODULES lists the RuleSpec modules that had no encoding
 manifest on 2026-10-14. Any other module without one fails.
 
-Both lists are closed and may only shrink. test_encoding_manifests.py fails
-if a listed file changes again, if a listed manifest is edited or removed
-other than by an encoder replacement, if a module loses its manifest, or if
-an entry is added or rewritten (each entry's digest must be in that file's
-ADOPTED_LIST_SHA256). It warns when an entry resolves, for example once the
-supervised encoder replaces a module's manifest; delete the entry then. New
-drift is fixed through the encoder, not listed.
+Both lists are closed. Every entry must carry a digest in
+test_encoding_manifests.py's ADOPTED_LIST_SHA256, so the lists cannot gain
+an entry that was not recorded on 2026-10-14; a removed entry could be put
+back later, and only review catches that. The test fails if a listed file
+changes again, if a listed manifest is edited, removed or retired other than
+by an encoder replacement, or if a module loses its manifest. It warns when
+an entry resolves, for example once the supervised encoder replaces a
+module's manifest; delete the entry then. New drift is fixed through the
+encoder, not listed.
 """
 
 from __future__ import annotations
@@ -91,8 +93,9 @@ KNOWN_STALE_ATTESTATIONS: tuple[StaleAttestation, ...] = (
         current_sha256="38eea3b005643978b2254de519e22c4245960e1d9726237f6a5e997eeb8dfdc7",
         changed_by=("f0106a82667c31aa9ee0068629a8b01a11bd0f66",),
         change=(
-            "no formula, parameter or import changed: module citation list "
-            "collapsed to one corpus_citation_path, 4 proof excerpts changed"
+            "no formula, parameter or import changed: module citations of "
+            "sections 10 and 11 replaced by one corpus_citation_path for the "
+            "whole Act, 4 proof excerpts changed"
         ),
     ),
     StaleAttestation(
