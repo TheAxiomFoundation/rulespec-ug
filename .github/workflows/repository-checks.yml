@@ -8,14 +8,14 @@ on:
 
 jobs:
   validate:
-    uses: TheAxiomFoundation/.github/.github/workflows/validate-rulespec.yml@ae3fd557d3bcdd38aade25ab6a8d8d79af014a10
+    uses: TheAxiomFoundation/.github/.github/workflows/validate-rulespec.yml@90dd838fc212c6eb14e7b01c69f06dd0860811d9
     secrets: inherit
     with:
-      # axiom-encode ffa8f3f1 (encoder 0.2.2277) with the shared workflow at
-      # ae3fd557 (cc135a6b plus .github#157, a draft under test). Both postdate axiom-encode#1853
-      # (fa0da5e8). At this encoder the generated guard also checks a pull
-      # request that changes only files under .axiom/encoding-manifests/.
-      axiom-encode-ref: ffa8f3f1d7fef9e26a3d4d2ab0ebe78a40b546cb
+      # Probe: axiom-encode fa0da5e8 (#1853, encoder 0.2.2211) with the shared
+      # workflow at 90dd838f (cc135a6b plus .github#157, a draft under test).
+      # fa0da5e8 checks a pull request that changes manifests alone and admits
+      # a producer that descends from the pin; it predates axiom-encode#1989.
+      axiom-encode-ref: fa0da5e834214052cc8d9d381e25ff409dd1062f
       axiom-rules-engine-ref: 363c6a6c56f7ad130996b63f7a09cfd4c3d9b021
       axiom-corpus-ref: a7abe870101f744f136cf8185f3824b3812bfd45
       rulespec-us-ref: 0f291b367bf7e15555f9973112278c5cbf221653
